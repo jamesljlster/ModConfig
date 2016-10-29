@@ -9,10 +9,16 @@ file(GLOB PROJECT_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
 	)
 
+file(GLOB TEST_TXT
+	${CMAKE_CURRENT_SOURCE_DIR}/*.txt
+	)
+
 # Set dependences
-find_package(OpenCV REQUIRED)
-include_directories(${OpenCV_INCLUDE_DIRS})
-set(PROJECT_DEPS TP_LZP ${OpenCV_LIBS})
+set(PROJECT_DEPS ModConfig)
+
+install(FILES ${TEST_TXT}
+	DESTINATION "${CMAKE_INSTALL_PREFIX}/bin"
+	)
 
 # Build test
 foreach(TEST_FILE_PATH ${PROJECT_SRCS})

@@ -1,0 +1,9 @@
+module IR
+{
+	baudrate = 38400;
+}
+
+module Laser
+{
+	baudrate = 115200;
+}

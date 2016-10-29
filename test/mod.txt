@@ -1,0 +1,11 @@
+module IR
+{
+	device = /dev/tnt0;	// device path
+	info = "IR Module";	/* device info */
+}
+
+module Laser
+{
+	device = /dev/tnt2;
+	test = test;
+}
