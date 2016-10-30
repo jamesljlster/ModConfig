@@ -6,27 +6,21 @@
 
 #define LF				0x0A
 #define CR				0x0D
-#define ASCII_MIN_SIG	0x21
+#define ASCII_MIN_SIG	0x20
 #define ASCII_MAX_SIG	0x7E
 
-enum READ_STATUS
+enum READ_CHAR_TYPE
 {
-	READ_INIT,
-	READ_MODULE_TYPE,
-	READ_MODULE_NAME,
-	READ_BLOCK_START,
-	READ_MEMBER_NAME,
-	READ_MEMBER_ASSIGN,
-	READ_MEMBER_TEXT,
-	READ_MEMBER_END,
-	READ_BLOCK_END
+	READ_ALL,		// Read all type character
+	READ_SIG		// Read signaficant character
 };
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-int modcfg_read_module(struct MODCFG_MODULE* modModRef, FILE* fileRead);
+char modcfg_get_char(FILE* fileRead, int readAction);
+int modcfg_get_string(FILE* fileRead, char** bufRef, int* bufLenRef, char stopChar);
 
 #ifdef __cplusplus
 }

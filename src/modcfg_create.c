@@ -6,16 +6,46 @@
 #include "modcfg_private.h" 
 #include "modcfg_file_proc.h"
 
+enum MODULE_STATUS
+{
+	MODULE_INIT,
+	MODULE_TYPE,
+	MODULE_NAME,
+	MODULE_BLOCK_START,
+	MODULE_BLOCK_END,
+	MODULE_ASSIGN
+};
+
+enum MEMBER_STATUS
+{
+	MEMBER_INIT,
+	MEMBER_NAME,
+	MEMBER_EQUAL_CHAR,
+	MEMBER_TEXT,
+	MEMBER_END,
+	MEMBER_ASSIGN
+};
+
 int modcfg_create(MODCFG* modPtr, char* filePath)
 {
 	int iResult;
-	int readStatus = READ_INIT;
 	int retValue = MODCFG_NO_ERROR;
+	int readAction;
+	
+	char tmpRead;
+	int readBufLen = 0;
+	char* readBuf = NULL;
 	void* tmpPtr = NULL;
 	FILE* fileRead;
-
-	struct MODCFG_STRUCT* modRef = NULL;
 	
+	int moduleStatus;
+	struct MODCFG_MODULE tmpModule;
+
+	int memberStatus;
+	struct MODCFG_MEMBER tmpMember;
+	
+	struct MODCFG_STRUCT* modRef = NULL;
+
 	// Open file
 	fileRead = fopen(filePath, "r");
 	if(fileRead == NULL)
@@ -42,47 +72,29 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 		modRef->modList = NULL;
 	}
 
-	// Reading
-	while(!feof(fileRead))
+	// Memory allocation: readBuf
+	readBuf = (char*)malloc(sizeof(char));
+	if(readBuf == NULL)
 	{
-		switch(readStatus)
-		{
-		case READ_INIT:
-			// Memory allocation: module structure
-			tmpPtr = realloc(modRef->modList, sizeof(modRef->modCount + 1) * sizeof(struct MODCFG_MODULE));
-			if(tmpPtr == NULL)
-			{
-				retValue = MODCFG_MEM_FAILED;
-				goto ERR;
-			}
-			else
-			{
-				modRef->modList = (struct MODCFG_MODULE*)tmpPtr;
-				modRef->modCount++;
-				tmpPtr = NULL;
-			}
-
-			iResult = modcfg_read_module(&modRef->modList[modRef->modCount - 1], fileRead);
-			if(iResult != MODCFG_NO_ERROR)
-			{
-				retValue = iResult;
-				goto ERR;
-			}
-
-		case READ_BLOCK_END:
-			readStatus = READ_INIT;
-			break;
-
-		default:
-			retValue = MODCFG_SYNTAX_ERROR;
-			goto ERR;
-		}
+		retValue = MODCFG_MEM_FAILED;
+		goto RET;
+	}
+	else
+	{
+		readBuf[0] = '\0';
+		readBufLen = 1;
 	}
 
-	if(readStatus != READ_BLOCK_END)
+	// Reading
+	moduleStatus = MODULE_INIT;
+	memberStatus = MEMBER_INIT;
+	readAction = READ_SIG;
+	while(!feof(fileRead))
 	{
-		retValue = MODCFG_SYNTAX_ERROR;
-		goto ERR;
+		// Read a character
+		tmpRead = modcfg_get_char(fileRead, readAction);
+		if(tmpRead > 0)
+			printf("%c", tmpRead);
 	}
 
 ERR:
@@ -90,6 +102,9 @@ ERR:
 	*modPtr = NULL;
 
 RET:
+	if(readBuf != NULL)
+		free(readBuf);
+
 	if(tmpPtr != NULL)
 		free(tmpPtr);
 
