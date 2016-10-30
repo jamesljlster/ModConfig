@@ -15,12 +15,25 @@ enum READ_CHAR_TYPE
 	READ_SIG		// Read signaficant character
 };
 
+struct STR_TREE
+{
+	int strCount;
+	char** strList;
+
+	int childCount;
+	struct STR_TREE* child;
+
+	char* header;
+};
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+int modcfg_create_str_tree(struct STR_TREE** strTreeRef, char* filePath);
+void modcfg_delete_str_tree(struct STR_TREE* strTree);
+void print_str_tree(struct STR_TREE* strTree);
 char modcfg_get_char(FILE* fileRead, int readAction);
-int modcfg_get_string(FILE* fileRead, char** bufRef, int* bufLenRef, char stopChar);
 
 #ifdef __cplusplus
 }

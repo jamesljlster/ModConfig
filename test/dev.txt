@@ -1,9 +1,13 @@
 module IR
 {
-	baudrate = 38400;
+	device = "/dev/tnt0";
+	baudrate = 38400;		// Comment Line
 }
 
 module Laser
 {
-	baudrate = 115200;
+	device = /dev/tnt2;
+	baudrate = 115200;		/* Comment
+								Block
+								*/
 }
