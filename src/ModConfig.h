@@ -20,7 +20,7 @@ int modcfg_delete(MODCFG mod);
 
 const char* modcfg_get_content(MODCFG mod, char* moduleName, char* memberName);
 
-#ifdef __cplusplud
+#ifdef __cplusplus
 }
 #endif
 
