@@ -1,5 +1,5 @@
-#ifndef _MODCONFIG_PRIVATE_H_
-#define _MODCONFIG_PRIVATE_H_
+#ifndef _MODCFG_PRIVATE_H_ 
+#define _MODCFG_PRIVATE_H_
 
 struct MODCFG_MEMBER
 {

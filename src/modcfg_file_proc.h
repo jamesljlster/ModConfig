@@ -1,8 +1,8 @@
-#ifndef _MODCONFIG_FILEPROC_H_
-#define	_MODCONFIG_FILEPROC_H_
+#ifndef _MODCFG_FILE_PROC_H_ 
+#define	_MODCFG_FILE_PROC_H_
 
 #include <stdio.h>
-#include "ModConfig_Private.h"
+#include "modcfg_private.h"
 
 #define LF				0x0A
 #define CR				0x0D

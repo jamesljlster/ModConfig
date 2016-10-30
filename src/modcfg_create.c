@@ -3,21 +3,15 @@
 #include <string.h>
 
 #include "ModConfig.h"
-#include "ModConfig_Private.h"
-#include "ModConfig_FileProc.h"
+#include "modcfg_private.h" 
+#include "modcfg_file_proc.h"
 
 int modcfg_create(MODCFG* modPtr, char* filePath)
 {
 	int iResult;
 	int readStatus = READ_INIT;
 	int retValue = MODCFG_NO_ERROR;
-	
-	char tmpRead;
-	
-	int readBufLen;
-	char* readBuf;
-	void* tmpPtr;
-
+	void* tmpPtr = NULL;
 	FILE* fileRead;
 
 	struct MODCFG_STRUCT* modRef = NULL;
@@ -93,25 +87,15 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 
 ERR:
 	modcfg_delete((MODCFG*)modRef);
-
-CLEANUP:
-	if(readBuf)
-		free(readBuf);
-	
-	if(tmpPtr)
-		free(tmpPtr);
+	*modPtr = NULL;
 
 RET:
-	if(readBuf)
-		free(readBuf);
+	if(tmpPtr != NULL)
+		free(tmpPtr);
 
-	if(fileRead)
+	if(fileRead != NULL)
 		fclose(fileRead);
 	
 	return retValue;
 }
 
-int modcfg_delete(MODCFG modPtr)
-{
-	return MODCFG_NO_ERROR;
-}
