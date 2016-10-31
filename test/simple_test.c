@@ -35,17 +35,18 @@ int main()
 //	}
 //	free(strList);
 	
-	while(1)
+	iResult = modcfg_create(&mod, TEST_PATH);
+	if(iResult != MODCFG_NO_ERROR)
 	{
-		iResult = modcfg_create(&mod, TEST_PATH);
-		if(iResult != MODCFG_NO_ERROR)
-		{
-			printf("modcfg_create() failed with error: %d\n", iResult);
-			return -1;
-		}
-		
-		modcfg_delete(mod);
+		printf("modcfg_create() failed with error: %d\n", iResult);
+		return -1;
 	}
+
+	modcfg_print_module(mod);
+
+	printf("Get device from IR: %s\n", modcfg_get_content(mod, "IR", "device"));
+	
+	modcfg_delete(mod);
 
 	return 0;
 }
