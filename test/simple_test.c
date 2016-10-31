@@ -34,12 +34,15 @@ int main()
 //		free(strList[i]);
 //	}
 //	free(strList);
-
-	iResult = modcfg_create(&mod, TEST_PATH);
-	if(iResult != MODCFG_NO_ERROR)
+	
+	while(1)
 	{
-		printf("modcfg_create() failed with error: %d\n", iResult);
-		return -1;
+		iResult = modcfg_create(&mod, TEST_PATH);
+		if(iResult != MODCFG_NO_ERROR)
+		{
+			printf("modcfg_create() failed with error: %d\n", iResult);
+			return -1;
+		}
 	}
 
 	modcfg_delete(mod);
