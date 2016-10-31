@@ -215,8 +215,6 @@ int modcfg_create_str_tree(struct STR_TREE** strTreeRef, char* filePath)
 		preChar = tmpRead;	
 	}
 
-	print_str_tree(strTree);
-	
 	// Checking
 	if(strTree != strTreeRoot)
 	{

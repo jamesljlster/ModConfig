@@ -9,7 +9,8 @@ struct MODCFG_MEMBER
 
 struct MODCFG_MODULE
 {
-	char* moduleName;
+	char* modName;
+	char* modType;
 
 	int memberCount;
 	struct MODCFG_MEMBER* memberList;
@@ -20,5 +21,14 @@ struct MODCFG_STRUCT
 	int modCount;
 	struct MODCFG_MODULE* modList;
 };
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

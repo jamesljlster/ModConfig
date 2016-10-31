@@ -28,8 +28,11 @@ int modcfg_delete(MODCFG modPtr)
 		}
 
 		// Free module name
-		if(modRef->modList[i].moduleName != NULL)
-			free((void*)modRef->modList[i].moduleName);
+		if(modRef->modList[i].modName != NULL)
+			free((void*)modRef->modList[i].modName);
+		
+		if(modRef->modList[i].modType != NULL)
+			free((void*)modRef->modList[i].modType);
 	}
 
 	// Free struct
