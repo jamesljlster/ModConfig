@@ -25,7 +25,7 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 		goto RET;
 	}
 
-	printf("create str tree succeed\n");
+	//printf("create str tree succeed\n");
 
 	// Checking
 	if(strTree->childCount <= 0)
@@ -34,7 +34,7 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 		goto ERR;
 	}
 
-	printf("checking passed\n");
+	//printf("checking passed\n");
 
 	// Memory allocation: module structure
 	modStruct = (struct MODCFG_STRUCT*)malloc(sizeof(struct MODCFG_STRUCT));
@@ -44,7 +44,7 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 		goto ERR;
 	}
 
-	printf("module structure created\n");
+	//printf("module structure created\n");
 	
 	modStruct->modCount = strTree->childCount;
 	modStruct->modList = (struct MODCFG_MODULE*)malloc(sizeof(struct MODCFG_MODULE) * strTree->childCount);
@@ -83,18 +83,71 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 		}
 	}
 
+	//printf("struct get all memory\n");
+
+	// Extract string tree to module
+	for(i = 0; i < modStruct->modCount; i++)
+	{
+		iResult = modcfg_str_extract(&strList, &strCount, strTree->child[i].header);
+		if(iResult != MODCFG_NO_ERROR)
+		{
+			retValue = iResult;
+			goto ERR;
+		}
+
+		// Checking
+		if(strCount != 2)
+		{
+			retValue = MODCFG_SYNTAX_ERROR;
+			goto ERR;
+		}
+		
+		// Assign string
+		modStruct->modList[i].modType = strList[0];
+		modStruct->modList[i].modName = strList[1];
+		
+		// Free string list
+		free(strList);
+		strList = NULL;
+		strCount = 0;
+
+		// Process member
+		for(j = 0; j < modStruct->modList[i].memberCount; j++)
+		{
+			iResult = modcfg_str_extract(&strList, &strCount, strTree->child[i].strList[j]);
+			if(iResult != MODCFG_NO_ERROR)
+			{
+				retValue = iResult;
+				goto ERR;
+			}
+
+			// Checking
+			if(strCount != 2)
+			{
+				retValue = MODCFG_SYNTAX_ERROR;
+				goto ERR;
+			}
+
+			// Assign string
+			modStruct->modList[i].memberList[j].idStr = strList[0];
+			modStruct->modList[i].memberList[j].content = strList[1];
+
+			// Free string list
+			free(strList);
+			strList = NULL;
+			strCount = 0;
+		}
+	}
+
 	// Assign value
 	*modPtr = modStruct;
 
 	goto RET;
 
 ERR:
-	printf("ERR\n");
 	modcfg_delete(modStruct);
 
 RET:
-	printf("debug\n");
-
 	for(i = 0; i < strCount; i++)
 	{
 		if(strList[i] != NULL)
@@ -113,7 +166,8 @@ RET:
 int modcfg_str_extract(char*** strListPtr, int* strCountPtr, char* src)
 {
 	int retValue = MODCFG_NO_ERROR;
-
+	
+	int finished = 0;
 	int forceRead = 0;
 	int procIndex = 0;
 
@@ -124,7 +178,7 @@ int modcfg_str_extract(char*** strListPtr, int* strCountPtr, char* src)
 	void* allocTmp = NULL;
 
 	// Processing
-	while(src[procIndex] != '\0')
+	while(finished == 0)
 	{
 		if(src[procIndex] == '"')
 		{
@@ -175,6 +229,9 @@ int modcfg_str_extract(char*** strListPtr, int* strCountPtr, char* src)
 		{
 			switch(src[procIndex])
 			{
+			case '\0':
+				finished = 1;
+
 			case ' ':
 			case '=':
 				if(strBuf != NULL)

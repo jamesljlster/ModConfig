@@ -12,27 +12,28 @@ int main()
 	int strCount;
 	char** strList;
 
-	char* test = "Hello world = new world! \"Fool fool fool\" lololo /dev/tnt0 \"/dev/tnt1\"";
-
-	iResult = modcfg_str_extract(&strList, &strCount, test);
-	if(iResult != MODCFG_NO_ERROR)
-	{
-		printf("Extract string failed!\n");
-		return -1;
-	}
-	else
-	{
-		for(iResult = 0; iResult < strCount; iResult++)
-		{
-			printf("%s\n", strList[iResult]);
-		}
-	}
-
-	for(i = 0; i < strCount; i++)
-	{
-		free(strList[i]);
-	}
-	free(strList);
+//	char* test = "Hello=\"Fool fool fool\" \"/dev/tnt1\"";
+//
+//	iResult = modcfg_str_extract(&strList, &strCount, test);
+//	if(iResult != MODCFG_NO_ERROR)
+//	{
+//		printf("Extract string failed!\n");
+//		return -1;
+//	}
+//	else
+//	{
+//		printf("strCount = %d\n", strCount);
+//		for(iResult = 0; iResult < strCount; iResult++)
+//		{
+//			printf("%s\n", strList[iResult]);
+//		}
+//	}
+//
+//	for(i = 0; i < strCount; i++)
+//	{
+//		free(strList[i]);
+//	}
+//	free(strList);
 
 	iResult = modcfg_create(&mod, TEST_PATH);
 	if(iResult != MODCFG_NO_ERROR)
