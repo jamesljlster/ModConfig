@@ -43,9 +43,9 @@ int main()
 			printf("modcfg_create() failed with error: %d\n", iResult);
 			return -1;
 		}
+		
+		modcfg_delete(mod);
 	}
-
-	modcfg_delete(mod);
 
 	return 0;
 }
