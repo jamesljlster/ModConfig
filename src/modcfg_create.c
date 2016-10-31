@@ -46,7 +46,6 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 
 	printf("module structure created\n");
 	
-	// Extract string tree to module struct
 	modStruct->modCount = strTree->childCount;
 	modStruct->modList = (struct MODCFG_MODULE*)malloc(sizeof(struct MODCFG_MODULE) * strTree->childCount);
 	if(modStruct->modList == NULL)
@@ -56,34 +55,12 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 	}
 	else
 	{
-		for(i = 0; i < strTree->childCount; i++)
+		for(i = 0; i < modStruct->modCount; i++)
 		{
-			// Extract string
-			iResult = modcfg_str_extract(&strList, &strCount, strTree->child[i].header);
-			if(iResult != MODCFG_NO_ERROR)
-			{
-				modStruct->modList[i].modType = NULL;
-				modStruct->modList[i].modName = NULL;
-
-				retValue = iResult;
-				goto ERR;
-			}
-
-			// Checking
-			if(strCount != 2)
-			{
-				retValue = MODCFG_SYNTAX_ERROR;
-				goto ERR;
-			}
-
-			// Assign extracted string
-			modStruct->modList[i].modType = strList[0];
-			modStruct->modList[i].modName = strList[1];
-
-			// Free string list
-			free(strList);
-			strList = NULL;
-			strCount = 0;
+			modStruct->modList[i].modType = NULL;
+			modStruct->modList[i].modName = NULL;	
+			modStruct->modList[i].memberList = NULL;
+			modStruct->modList[i].memberCount = 0;
 		}
 	}
 
@@ -98,34 +75,10 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 		}
 		else
 		{
-			for(j = 0; j < strTree->child[i].strCount; j++)
+			for(j = 0; j < modStruct->modList[i].memberCount; j++)
 			{
-				// Extract string
-				iResult = modcfg_str_extract(&strList, &strCount, strTree->child[i].strList[j]);
-				if(iResult != MODCFG_NO_ERROR)
-				{
-					modStruct->modList[i].memberList[j].idStr = NULL;
-					modStruct->modList[i].memberList[j].content = NULL;
-
-					retValue = iResult;
-					goto ERR;
-				}
-				
-				// Checking
-				if(strCount != 2)
-				{
-					retValue = MODCFG_SYNTAX_ERROR;
-					goto ERR;
-				}
-
-				// Assign extracted string
-				modStruct->modList[i].memberList[j].idStr = strList[0];
-				modStruct->modList[i].memberList[j].content = strList[1];
-
-				// Free string list
-				free(strList);
-				strList = NULL;
-				strCount = 0;
+				modStruct->modList[i].memberList[j].idStr = NULL;
+				modStruct->modList[i].memberList[j].content = NULL;
 			}
 		}
 	}
