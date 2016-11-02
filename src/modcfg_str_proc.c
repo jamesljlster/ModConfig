@@ -2,7 +2,7 @@
 
 #include "ModConfig.h"
 
-int modcfg_srt_append(char** strBufPtr, int* strBufLenPtr, char appendChar)
+int modcfg_str_append(char** strBufPtr, int* strBufLenPtr, char appendChar)
 {
 	int tmpStrBufLen = *strBufLenPtr;
 	char* tmpStrBuf = *strBufPtr;
