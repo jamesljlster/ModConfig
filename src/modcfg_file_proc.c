@@ -209,6 +209,9 @@ ERR:
 	modcfg_delete_str_tree(strTree);
 
 RET:
+	if(strBuf != NULL)
+		free(strBuf);
+
 	if(allocTmp != NULL)
 		free(allocTmp);
 	
