@@ -22,7 +22,7 @@ int modcfg_create_str_tree(struct STR_TREE** strTreeRef, char* filePath)
 	FILE* fileRead = NULL;
 
 	// Open file
-	fileRead = fopen(filePath, "r");
+	fileRead = fopen(filePath, "rb");
 	if(fileRead == NULL)
 	{
 		retValue = MODCFG_FILE_FAILED;
