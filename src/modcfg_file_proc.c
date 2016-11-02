@@ -81,21 +81,6 @@ int modcfg_create_str_tree(struct STR_TREE** strTreeRef, char* filePath)
 			else
 			{
 				// Append character to string buffer
-//				strBufLen++;
-//				allocTmp = realloc(strBuf, sizeof(char) * strBufLen);
-//				if(allocTmp == NULL)
-//				{
-//					retValue = MODCFG_MEM_FAILED;
-//					goto ERR;
-//				}
-//				else
-//				{
-//					strBuf = (char*)allocTmp;
-//					allocTmp = NULL;
-//
-//					strBuf[strBufLen - 2] = tmpRead;
-//					strBuf[strBufLen - 1] = '\0';
-//				}
 				iResult = modcfg_str_append(&strBuf, &strBufLen, tmpRead);
 				if(iResult != MODCFG_NO_ERROR)
 				{
@@ -121,21 +106,6 @@ int modcfg_create_str_tree(struct STR_TREE** strTreeRef, char* filePath)
 			else
 			{
 				// Append character to string buffer
-//				strBufLen++;
-//				allocTmp = realloc(strBuf, sizeof(char) * strBufLen);
-//				if(allocTmp == NULL)
-//				{
-//					retValue = MODCFG_MEM_FAILED;
-//					goto ERR;
-//				}
-//				else
-//				{
-//					strBuf = (char*)allocTmp;
-//					allocTmp = NULL;
-//
-//					strBuf[strBufLen - 2] = tmpRead;
-//					strBuf[strBufLen - 1] = '\0';
-//				}
 				iResult = modcfg_str_append(&strBuf, &strBufLen, tmpRead);
 				if(iResult != MODCFG_NO_ERROR)
 				{
@@ -208,21 +178,6 @@ int modcfg_create_str_tree(struct STR_TREE** strTreeRef, char* filePath)
 			if(tmpRead > 0)
 			{
 				// Append character to string buffer
-//				strBufLen++;
-//				allocTmp = realloc(strBuf, sizeof(char) * strBufLen);
-//				if(allocTmp == NULL)
-//				{
-//					retValue = MODCFG_MEM_FAILED;
-//					goto ERR;
-//				}
-//				else
-//				{
-//					strBuf = (char*)allocTmp;
-//					allocTmp = NULL;
-//
-//					strBuf[strBufLen - 2] = tmpRead;
-//					strBuf[strBufLen - 1] = '\0';
-//				}
 				iResult = modcfg_str_append(&strBuf, &strBufLen, tmpRead);
 				if(iResult != MODCFG_NO_ERROR)
 				{
