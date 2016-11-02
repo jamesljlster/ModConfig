@@ -194,7 +194,6 @@ int modcfg_create_str_tree(struct STR_TREE** strTreeRef, char* filePath)
 	// Checking
 	if(strTree != strTreeRoot)
 	{
-		printf("Not return to parent tree\n");
 		retValue = MODCFG_SYNTAX_ERROR;
 		strTree = strTreeRoot;
 		goto ERR;
