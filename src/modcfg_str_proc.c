@@ -1,6 +1,7 @@
 #include <stdlib.h>
 
 #include "ModConfig.h"
+#include "modcfg_file_proc.h"
 
 int modcfg_str_append(char** strBufPtr, int* strBufLenPtr, char appendChar)
 {
@@ -76,21 +77,6 @@ int modcfg_str_extract(char*** strListPtr, int* strCountPtr, char* src)
 
 		if(forceRead == 1)
 		{
-//			strBufLen++;
-//			allocTmp = realloc(strBuf, sizeof(char) * strBufLen);
-//			if(allocTmp == NULL)
-//			{
-//				retValue = MODCFG_MEM_FAILED;
-//				goto ERR;
-//			}
-//			else
-//			{
-//				strBuf = (char*)allocTmp;
-//				allocTmp = NULL;
-//
-//				strBuf[strBufLen - 1] = '\0';
-//				strBuf[strBufLen - 2] = src[procIndex];
-//			}
 			iResult = modcfg_str_append(&strBuf, &strBufLen, src[procIndex]);
 			if(iResult != MODCFG_NO_ERROR)
 			{
@@ -129,28 +115,12 @@ int modcfg_str_extract(char*** strListPtr, int* strCountPtr, char* src)
 				break;
 
 			default:
-//				strBufLen++;
-//				allocTmp = realloc(strBuf, sizeof(char) * strBufLen);
-//				if(allocTmp == NULL)
-//				{
-//					retValue = MODCFG_MEM_FAILED;
-//					goto ERR;
-//				}
-//				else
-//				{
-//					strBuf = (char*)allocTmp;
-//					allocTmp = NULL;
-//
-//					strBuf[strBufLen - 1] = '\0';
-//					strBuf[strBufLen - 2] = src[procIndex];
-//				}
 				iResult = modcfg_str_append(&strBuf, &strBufLen, src[procIndex]);
 				if(iResult != MODCFG_NO_ERROR)
 				{
 					retValue = iResult;
 					goto ERR;
 				}
-
 			}
 		}
 
@@ -182,3 +152,4 @@ RET:
 
 	return retValue;
 }
+
