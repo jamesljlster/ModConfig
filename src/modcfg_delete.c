@@ -26,6 +26,8 @@ int modcfg_delete(MODCFG modPtr)
 			if(modRef->modList[i].memberList[j].content != NULL)
 				free((void*)modRef->modList[i].memberList[j].content);
 		}
+		if(modRef->modList[i].memberList != NULL)
+			free(modRef->modList[i].memberList);
 
 		// Free module name
 		if(modRef->modList[i].modName != NULL)
@@ -34,6 +36,8 @@ int modcfg_delete(MODCFG modPtr)
 		if(modRef->modList[i].modType != NULL)
 			free((void*)modRef->modList[i].modType);
 	}
+	if(modRef->modList != NULL)
+		free(modRef->modList);
 
 	// Free struct
 	free((void*)modRef);

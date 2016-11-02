@@ -25,16 +25,12 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 		goto RET;
 	}
 
-	//printf("create str tree succeed\n");
-
 	// Checking
 	if(strTree->childCount <= 0)
 	{
 		retValue = MODCFG_SYNTAX_ERROR;
 		goto ERR;
 	}
-
-	//printf("checking passed\n");
 
 	// Memory allocation: module structure
 	modStruct = (struct MODCFG_STRUCT*)malloc(sizeof(struct MODCFG_STRUCT));
@@ -44,8 +40,6 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 		goto ERR;
 	}
 
-	//printf("module structure created\n");
-	
 	modStruct->modCount = strTree->childCount;
 	modStruct->modList = (struct MODCFG_MODULE*)malloc(sizeof(struct MODCFG_MODULE) * strTree->childCount);
 	if(modStruct->modList == NULL)
