@@ -34,7 +34,7 @@ int main()
 //		free(strList[i]);
 //	}
 //	free(strList);
-	
+
 	iResult = modcfg_create(&mod, TEST_PATH);
 	if(iResult != MODCFG_NO_ERROR)
 	{

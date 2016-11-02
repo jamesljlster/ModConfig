@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 2.8)
 
 # Variables
 set(PROJECT_NAME ModConfig)
-set(ENABLE_INDEX_CHECKING OFF CACHE BOOL "Enable index checking.")
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Build confugure" FORCE)
 if(DEFINED CMAKE_BUILD_TYPE)
 	set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS ${CMAKE_CONFIGURATION_TYPES})

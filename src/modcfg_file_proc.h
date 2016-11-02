@@ -33,9 +33,11 @@ extern "C" {
 int modcfg_create_str_tree(struct STR_TREE** strTreeRef, char* filePath);
 void modcfg_delete_str_tree(struct STR_TREE* strTree);
 void print_str_tree(struct STR_TREE* strTree);
+
 char modcfg_get_char(FILE* fileRead, int readAction);
+
 int modcfg_str_extract(char*** strListPtr, int* strCountPtr, char* src);
-int modcfg_srt_append(char** strBufPtr, int* strBufLenPtr, char appendChar);
+int modcfg_str_append(char** strBufPtr, int* strBufLenPtr, char appendChar);
 
 #ifdef __cplusplus
 }

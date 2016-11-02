@@ -25,16 +25,12 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 		goto RET;
 	}
 
-	//printf("create str tree succeed\n");
-
 	// Checking
 	if(strTree->childCount <= 0)
 	{
 		retValue = MODCFG_SYNTAX_ERROR;
 		goto ERR;
 	}
-
-	//printf("checking passed\n");
 
 	// Memory allocation: module structure
 	modStruct = (struct MODCFG_STRUCT*)malloc(sizeof(struct MODCFG_STRUCT));
@@ -44,8 +40,6 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 		goto ERR;
 	}
 
-	//printf("module structure created\n");
-	
 	modStruct->modCount = strTree->childCount;
 	modStruct->modList = (struct MODCFG_MODULE*)malloc(sizeof(struct MODCFG_MODULE) * strTree->childCount);
 	if(modStruct->modList == NULL)
@@ -82,8 +76,6 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 			}
 		}
 	}
-
-	//printf("struct get all memory\n");
 
 	// Extract string tree to module
 	for(i = 0; i < modStruct->modCount; i++)
@@ -163,142 +155,3 @@ RET:
 	return retValue;
 }
 
-int modcfg_str_extract(char*** strListPtr, int* strCountPtr, char* src)
-{
-	int retValue = MODCFG_NO_ERROR;
-	
-	int finished = 0;
-	int forceRead = 0;
-	int procIndex = 0;
-
-	int strCount = 0;
-	char** strList = NULL;
-	int strBufLen = 1;
-	char* strBuf = NULL;
-	void* allocTmp = NULL;
-
-	// Processing
-	while(finished == 0)
-	{
-		if(src[procIndex] == '"')
-		{
-			if(strBuf != NULL)
-			{
-				strCount++;
-				allocTmp = realloc(strList, sizeof(char*) * strCount);
-				if(allocTmp == NULL)
-				{
-					retValue = MODCFG_MEM_FAILED;
-					goto ERR;
-				}
-				else
-				{
-					strList = (char**)allocTmp;
-					allocTmp = NULL;
-					strList[strCount - 1] = strBuf;
-					
-					strBuf = NULL;
-					strBufLen = 1;
-				}
-			}
-
-			forceRead = 1 - forceRead;
-			procIndex++;
-			continue;
-		}
-
-		if(forceRead == 1)
-		{
-			strBufLen++;
-			allocTmp = realloc(strBuf, sizeof(char) * strBufLen);
-			if(allocTmp == NULL)
-			{
-				retValue = MODCFG_MEM_FAILED;
-				goto ERR;
-			}
-			else
-			{
-				strBuf = (char*)allocTmp;
-				allocTmp = NULL;
-
-				strBuf[strBufLen - 1] = '\0';
-				strBuf[strBufLen - 2] = src[procIndex];
-			}
-		}
-		else
-		{
-			switch(src[procIndex])
-			{
-			case '\0':
-				finished = 1;
-
-			case ' ':
-			case '=':
-				if(strBuf != NULL)
-				{
-					strCount++;
-					allocTmp = realloc(strList, sizeof(char*) * strCount);
-					if(allocTmp == NULL)
-					{
-						retValue = MODCFG_MEM_FAILED;
-						goto ERR;
-					}
-					else
-					{
-						strList = (char**)allocTmp;
-						allocTmp = NULL;
-						strList[strCount - 1] = strBuf;
-						
-						strBuf = NULL;
-						strBufLen = 1;
-					}
-				}
-				break;
-
-			default:
-				strBufLen++;
-				allocTmp = realloc(strBuf, sizeof(char) * strBufLen);
-				if(allocTmp == NULL)
-				{
-					retValue = MODCFG_MEM_FAILED;
-					goto ERR;
-				}
-				else
-				{
-					strBuf = (char*)allocTmp;
-					allocTmp = NULL;
-
-					strBuf[strBufLen - 1] = '\0';
-					strBuf[strBufLen - 2] = src[procIndex];
-				}
-			}
-		}
-
-		procIndex++;
-	}
-
-	// Assign value
-	*strListPtr = strList;
-	*strCountPtr = strCount;
-	
-	goto RET;
-
-ERR:
-	for(procIndex = 0; procIndex < strCount; procIndex++)
-	{
-		if(strList[procIndex] != NULL)
-			free(strList[procIndex]);
-	}
-
-	if(strList != NULL)
-		free(strList);
-
-RET:
-	if(allocTmp != NULL)
-		free(allocTmp);
-
-	if(strBuf != NULL)
-		free(strBuf);
-
-	return retValue;
-}

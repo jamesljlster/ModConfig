@@ -7,6 +7,7 @@
 
 int modcfg_create_str_tree(struct STR_TREE** strTreeRef, char* filePath)
 {
+	int iResult;
 	int retValue = MODCFG_NO_ERROR;
 	
 	char tmpRead, preChar;
@@ -80,20 +81,11 @@ int modcfg_create_str_tree(struct STR_TREE** strTreeRef, char* filePath)
 			else
 			{
 				// Append character to string buffer
-				strBufLen++;
-				allocTmp = realloc(strBuf, sizeof(char) * strBufLen);
-				if(allocTmp == NULL)
+				iResult = modcfg_str_append(&strBuf, &strBufLen, tmpRead);
+				if(iResult != MODCFG_NO_ERROR)
 				{
-					retValue = MODCFG_MEM_FAILED;
+					retValue = iResult;
 					goto ERR;
-				}
-				else
-				{
-					strBuf = (char*)allocTmp;
-					allocTmp = NULL;
-
-					strBuf[strBufLen - 2] = tmpRead;
-					strBuf[strBufLen - 1] = '\0';
 				}
 			}
 			break;
@@ -114,21 +106,13 @@ int modcfg_create_str_tree(struct STR_TREE** strTreeRef, char* filePath)
 			else
 			{
 				// Append character to string buffer
-				strBufLen++;
-				allocTmp = realloc(strBuf, sizeof(char) * strBufLen);
-				if(allocTmp == NULL)
+				iResult = modcfg_str_append(&strBuf, &strBufLen, tmpRead);
+				if(iResult != MODCFG_NO_ERROR)
 				{
-					retValue = MODCFG_MEM_FAILED;
+					retValue = iResult;
 					goto ERR;
 				}
-				else
-				{
-					strBuf = (char*)allocTmp;
-					allocTmp = NULL;
 
-					strBuf[strBufLen - 2] = tmpRead;
-					strBuf[strBufLen - 1] = '\0';
-				}
 			}
 			break;
 
@@ -194,21 +178,13 @@ int modcfg_create_str_tree(struct STR_TREE** strTreeRef, char* filePath)
 			if(tmpRead > 0)
 			{
 				// Append character to string buffer
-				strBufLen++;
-				allocTmp = realloc(strBuf, sizeof(char) * strBufLen);
-				if(allocTmp == NULL)
+				iResult = modcfg_str_append(&strBuf, &strBufLen, tmpRead);
+				if(iResult != MODCFG_NO_ERROR)
 				{
-					retValue = MODCFG_MEM_FAILED;
+					retValue = iResult;
 					goto ERR;
 				}
-				else
-				{
-					strBuf = (char*)allocTmp;
-					allocTmp = NULL;
 
-					strBuf[strBufLen - 2] = tmpRead;
-					strBuf[strBufLen - 1] = '\0';
-				}
 			}
 			break;
 		}
@@ -233,6 +209,9 @@ ERR:
 	modcfg_delete_str_tree(strTree);
 
 RET:
+	if(strBuf != NULL)
+		free(strBuf);
+
 	if(allocTmp != NULL)
 		free(allocTmp);
 	

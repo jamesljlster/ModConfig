@@ -1,8 +1,9 @@
 #include <stdlib.h>
 
 #include "ModConfig.h"
+#include "modcfg_file_proc.h"
 
-int modcfg_srt_append(char** strBufPtr, int* strBufLenPtr, char appendChar)
+int modcfg_str_append(char** strBufPtr, int* strBufLenPtr, char appendChar)
 {
 	int tmpStrBufLen = *strBufLenPtr;
 	char* tmpStrBuf = *strBufPtr;
@@ -28,3 +29,127 @@ int modcfg_srt_append(char** strBufPtr, int* strBufLenPtr, char appendChar)
 
 	return MODCFG_NO_ERROR;
 }
+
+int modcfg_str_extract(char*** strListPtr, int* strCountPtr, char* src)
+{
+	int iResult;
+	int retValue = MODCFG_NO_ERROR;
+	
+	int finished = 0;
+	int forceRead = 0;
+	int procIndex = 0;
+
+	int strCount = 0;
+	char** strList = NULL;
+	int strBufLen = 1;
+	char* strBuf = NULL;
+	void* allocTmp = NULL;
+
+	// Processing
+	while(finished == 0)
+	{
+		if(src[procIndex] == '"')
+		{
+			if(strBuf != NULL)
+			{
+				strCount++;
+				allocTmp = realloc(strList, sizeof(char*) * strCount);
+				if(allocTmp == NULL)
+				{
+					retValue = MODCFG_MEM_FAILED;
+					goto ERR;
+				}
+				else
+				{
+					strList = (char**)allocTmp;
+					allocTmp = NULL;
+					strList[strCount - 1] = strBuf;
+					
+					strBuf = NULL;
+					strBufLen = 1;
+				}
+			}
+
+			forceRead = 1 - forceRead;
+			procIndex++;
+			continue;
+		}
+
+		if(forceRead == 1)
+		{
+			iResult = modcfg_str_append(&strBuf, &strBufLen, src[procIndex]);
+			if(iResult != MODCFG_NO_ERROR)
+			{
+				retValue = iResult;
+				goto ERR;
+			}
+		}
+		else
+		{
+			switch(src[procIndex])
+			{
+			case '\0':
+				finished = 1;
+
+			case ' ':
+			case '=':
+				if(strBuf != NULL)
+				{
+					strCount++;
+					allocTmp = realloc(strList, sizeof(char*) * strCount);
+					if(allocTmp == NULL)
+					{
+						retValue = MODCFG_MEM_FAILED;
+						goto ERR;
+					}
+					else
+					{
+						strList = (char**)allocTmp;
+						allocTmp = NULL;
+						strList[strCount - 1] = strBuf;
+						
+						strBuf = NULL;
+						strBufLen = 1;
+					}
+				}
+				break;
+
+			default:
+				iResult = modcfg_str_append(&strBuf, &strBufLen, src[procIndex]);
+				if(iResult != MODCFG_NO_ERROR)
+				{
+					retValue = iResult;
+					goto ERR;
+				}
+			}
+		}
+
+		procIndex++;
+	}
+
+	// Assign value
+	*strListPtr = strList;
+	*strCountPtr = strCount;
+	
+	goto RET;
+
+ERR:
+	for(procIndex = 0; procIndex < strCount; procIndex++)
+	{
+		if(strList[procIndex] != NULL)
+			free(strList[procIndex]);
+	}
+
+	if(strList != NULL)
+		free(strList);
+
+RET:
+	if(allocTmp != NULL)
+		free(allocTmp);
+
+	if(strBuf != NULL)
+		free(strBuf);
+
+	return retValue;
+}
+
