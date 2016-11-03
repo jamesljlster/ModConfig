@@ -21,6 +21,7 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 	iResult = modcfg_create_str_tree(&strTree, filePath);
 	if(iResult != MODCFG_NO_ERROR)
 	{
+		printf("Failed to create file tree\n");
 		retValue = iResult;
 		goto RET;
 	}
@@ -28,6 +29,7 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 	// Checking
 	if(strTree->childCount <= 0)
 	{
+		printf("File tree checking failed\n");
 		retValue = MODCFG_SYNTAX_ERROR;
 		goto ERR;
 	}
