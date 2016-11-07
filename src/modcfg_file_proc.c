@@ -4,6 +4,7 @@
 
 #include "ModConfig.h"
 #include "modcfg_file_proc.h"
+#include "modcfg_ptr_stack.h"
 
 int modcfg_create_str_tree(struct STR_TREE** strTreeRef, char* filePath)
 {
@@ -19,7 +20,16 @@ int modcfg_create_str_tree(struct STR_TREE** strTreeRef, char* filePath)
 	struct STR_TREE* strTree = NULL;
 	struct STR_TREE* strTreeRoot = NULL;
 	struct STR_TREE* strTreeParent = NULL;
+	struct MODCFG_PSTACK pstack;
 	FILE* fileRead = NULL;
+
+	// Create pointer stack
+	iResult = modcfg_pstack_create(&pstack);
+	if(iResult != MODCFG_NO_ERROR)
+	{
+		retValue = MODCFG_MEM_FAILED;
+		goto RET;
+	}
 
 	// Open file
 	fileRead = fopen(filePath, "rb");
@@ -33,7 +43,7 @@ int modcfg_create_str_tree(struct STR_TREE** strTreeRef, char* filePath)
 		fseek(fileRead, 0, SEEK_END);
 		rewind(fileRead);
 	}
-
+	
 	// Create root string tree
 	strTree = (struct STR_TREE*)malloc(sizeof(struct STR_TREE));
 	if(strTree == NULL)
@@ -138,19 +148,33 @@ int modcfg_create_str_tree(struct STR_TREE** strTreeRef, char* filePath)
 			}
 
 			// Enter child tree
-			strTreeParent = strTree;
+			iResult = modcfg_pstack_push(&pstack, (void*)strTree);
+			if(iResult != MODCFG_NO_ERROR)
+			{
+				retValue = MODCFG_MEM_FAILED;
+				goto ERR;
+			}
 			strTree = &(strTree->child[strTree->childCount - 1]);
 
 			// Assign tree header
 			strTree->header = strBuf;
 			strBuf = NULL;
 			strBufLen = 1;
-
+			
 			break;
 
 		case '}':
 			// Return to parent tree
-			strTree = strTreeParent;
+			strTreeParent = modcfg_pstack_pop(&pstack);
+			if(strTreeParent == NULL)
+			{
+				retValue = MODCFG_SYNTAX_ERROR;
+				goto ERR;
+			}
+			else
+			{
+				strTree = strTreeParent;
+			}
 			
 			break;
 
@@ -217,6 +241,8 @@ RET:
 	
 	if(fileRead != NULL)
 		fclose(fileRead);
+
+	modcfg_pstack_delete(&pstack);
 
 	return retValue;
 }
