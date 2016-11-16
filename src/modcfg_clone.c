@@ -24,7 +24,7 @@ int modcfg_clone(MODCFG* dstModPtr, MODCFG srcMod)
 	}
 	else
 	{
-		modStruct->modCount = ModSrcRef->modCount;
+		modStruct->modCount = modSrcRef->modCount;
 		modStruct->modList = (struct MODCFG_MODULE*)malloc(sizeof(struct MODCFG_MODULE) * modSrcRef->modCount);
 	}
 

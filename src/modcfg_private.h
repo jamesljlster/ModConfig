@@ -26,6 +26,9 @@ struct MODCFG_STRUCT
 extern "C" {
 #endif
 
+char* modcfg_str_clone(char* src);
+int modcfg_clone_member(struct MODCFG_MEMBER* dst, struct MODCFG_MEMBER* src);
+int modcfg_clone_module(struct MODCFG_MODULE* dst, struct MODCFG_MODULE* src);
 
 #ifdef __cplusplus
 }
