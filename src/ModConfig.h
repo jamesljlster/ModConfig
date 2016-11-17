@@ -25,7 +25,7 @@ int modcfg_clone(MODCFG* dstModPtr, MODCFG srcMod);
 int modcfg_merge(MODCFG* dstModPtr, MODCFG srcMod);
 
 const char* modcfg_get_content(MODCFG mod, char* moduleName, char* memberName);
-void modcfg_print_module(MODCFG mod);
+void modcfg_print_detail(MODCFG mod);
 
 #ifdef __cplusplus
 }

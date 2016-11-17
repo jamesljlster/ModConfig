@@ -4,10 +4,6 @@
 #include "ModConfig.h"
 #include "modcfg_private.h" 
 
-char* modcfg_str_clone(char* src);
-int modcfg_clone_member(struct MODCFG_MEMBER* dst, struct MODCFG_MEMBER* src);
-int modcfg_clone_module(struct MODCFG_MODULE* dst, struct MODCFG_MODULE* src);
-
 int modcfg_clone(MODCFG* dstModPtr, MODCFG srcMod)
 {
 	int i, j;

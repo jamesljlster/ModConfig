@@ -30,6 +30,10 @@ char* modcfg_str_clone(char* src);
 int modcfg_clone_member(struct MODCFG_MEMBER* dst, struct MODCFG_MEMBER* src);
 int modcfg_clone_module(struct MODCFG_MODULE* dst, struct MODCFG_MODULE* src);
 
+void modcfg_print_member(struct MODCFG_MEMBER* src);
+void modcfg_print_module(struct MODCFG_MODULE* src);
+void modcfg_print_struct(struct MODCFG_STRUCT* src);
+
 #ifdef __cplusplus
 }
 #endif

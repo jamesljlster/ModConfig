@@ -42,7 +42,7 @@ int main()
 		return -1;
 	}
 
-	modcfg_print_module(mod);
+	modcfg_print_detail(mod);
 
 	printf("Get device from IR: %s\n", modcfg_get_content(mod, "IR", "device"));
 	
