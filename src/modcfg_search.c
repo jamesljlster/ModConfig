@@ -7,18 +7,16 @@ struct MODCFG_MEMBER* modcfg_search_member(struct MODCFG_MODULE* target, char* n
 {
 	int i;
 	int iResult;
-	int cmpLen;
-	int srcLen, argLen;
+	int srcLen, cmpLen;
 	struct MODCFG_MEMBER* ptr = NULL;
 
-	argLen = strlen(name);
+	cmpLen = strlen(name);
 	for(i = 0; i < target->memberCount; i++)
 	{
 		srcLen = strlen(target->memberList[i].idStr);
-		if(srcLen != argLen)
+		if(srcLen != cmpLen)
 			continue;
 
-		cmpLen = (argLen <= srcLen) ? argLen : srcLen;
 		iResult = strncmp(target->memberList[i].idStr, name, cmpLen);
 		if(iResult == 0)
 		{
@@ -34,18 +32,16 @@ struct MODCFG_MODULE* modcfg_search_module(struct MODCFG_STRUCT* target, char* n
 {
 	int i;
 	int iResult;
-	int cmpLen;
-	int srcLen, argLen;
+	int srcLen, cmpLen;
 	struct MODCFG_MODULE* ptr = NULL;
 
-	argLen = strlen(name);
+	cmpLen = strlen(name);
 	for(i = 0; i < target->modCount; i++)
 	{
 		srcLen = strlen(target->modList[i].modName);
-		if(srcLen != argLen)
+		if(srcLen != cmpLen)
 			continue;
 
-		cmpLen = (argLen <= srcLen) ? argLen : srcLen;
 		iResult = strncmp(target->modList[i].modName, name, cmpLen);
 		if(iResult == 0)
 		{

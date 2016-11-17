@@ -64,7 +64,6 @@ void modcfg_delete_struct(struct MODCFG_STRUCT* target)
 
 int modcfg_delete(MODCFG modPtr)
 {
-	int i, j;
 	struct MODCFG_STRUCT* modRef = (struct MODCFG_STRUCT*)modPtr;
 	
 	// Checking
@@ -78,34 +77,6 @@ int modcfg_delete(MODCFG modPtr)
 		modcfg_delete_struct(modRef);
 		free(modRef);
 	}
-
-//	// Free module
-//	for(i = 0; i < modRef->modCount; i++)
-//	{
-//		// Free member
-//		for(j = 0; j < modRef->modList[i].memberCount; j++)
-//		{
-//			if(modRef->modList[i].memberList[j].idStr != NULL)
-//				free((void*)modRef->modList[i].memberList[j].idStr);
-//			
-//			if(modRef->modList[i].memberList[j].content != NULL)
-//				free((void*)modRef->modList[i].memberList[j].content);
-//		}
-//		if(modRef->modList[i].memberList != NULL)
-//			free(modRef->modList[i].memberList);
-//
-//		// Free module name
-//		if(modRef->modList[i].modName != NULL)
-//			free((void*)modRef->modList[i].modName);
-//		
-//		if(modRef->modList[i].modType != NULL)
-//			free((void*)modRef->modList[i].modType);
-//	}
-//	if(modRef->modList != NULL)
-//		free(modRef->modList);
-//
-//	// Free struct
-//	free((void*)modRef);
 
 	return MODCFG_NO_ERROR;
 }
