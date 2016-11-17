@@ -6,7 +6,7 @@
 
 int modcfg_clone(MODCFG* dstModPtr, MODCFG srcMod)
 {
-	int i, j;
+	int iResult;
 	int retValue = MODCFG_NO_ERROR;
 	struct MODCFG_STRUCT* modStruct = NULL;
 	struct MODCFG_STRUCT* modSrcRef = (struct MODCFG_STRUCT*)srcMod;
@@ -20,8 +20,16 @@ int modcfg_clone(MODCFG* dstModPtr, MODCFG srcMod)
 	}
 	else
 	{
-		modStruct->modCount = modSrcRef->modCount;
-		modStruct->modList = (struct MODCFG_MODULE*)malloc(sizeof(struct MODCFG_MODULE) * modSrcRef->modCount);
+		modStruct->modCount = 0;
+		modStruct->modList = NULL;
+	}
+
+	// Clone structure
+	iResult = modcfg_clone_struct(modStruct, modSrcRef);
+	if(iResult != MODCFG_NO_ERROR)
+	{
+		retValue = iResult;
+		goto ERR;
 	}
 
 	// Assign value
@@ -30,11 +38,9 @@ int modcfg_clone(MODCFG* dstModPtr, MODCFG srcMod)
 	goto RET;
 
 ERR:
-	if(modStruct != NULL)
-		modcfg_delete(modStruct);
+	modcfg_delete(modStruct);
 
 RET:
-
 	return retValue;
 }
 
@@ -75,11 +81,7 @@ int modcfg_clone_member(struct MODCFG_MEMBER* dst, struct MODCFG_MEMBER* src)
 	}
 
 ERR:
-	if(dst->idStr != NULL)
-		free(dst->idStr);
-
-	if(dst->content != NULL)
-		free(dst->content);
+	modcfg_delete_member(dst);
 
 RET:
 	return retValue;
@@ -99,8 +101,7 @@ int modcfg_clone_module(struct MODCFG_MODULE* dst, struct MODCFG_MODULE* src)
 		goto RET;
 	}
 
-	dst->memberCount = src->memberCount;
-	dst->memberList = malloc(sizeof(struct MODCFG_MEMBER) * src->memberCount);
+	dst->memberList = (struct MODCFG_MEMBER*)malloc(sizeof(struct MODCFG_MEMBER) * src->memberCount);
 	if(dst->memberList == NULL)
 	{
 		retValue = MODCFG_MEM_FAILED;
@@ -108,14 +109,21 @@ int modcfg_clone_module(struct MODCFG_MODULE* dst, struct MODCFG_MODULE* src)
 	}
 	else
 	{
+		dst->memberCount = src->memberCount;
 		for(i = 0; i < src->memberCount; i++)
 		{
-			iResult = modcfg_clone_member(&dst->memberList[i], &src->memberList[i]);
-			if(iResult != MODCFG_NO_ERROR)
-			{
-				retValue = iResult;
-				goto ERR;
-			}
+			dst->memberList[i].idStr = NULL;
+			dst->memberList[i].content = NULL;
+		}
+	}
+	
+	for(i = 0; i < src->memberCount; i++)
+	{
+		iResult = modcfg_clone_member(&dst->memberList[i], &src->memberList[i]);
+		if(iResult != MODCFG_NO_ERROR)
+		{
+			retValue = iResult;
+			goto ERR;
 		}
 	}
 	
@@ -128,4 +136,46 @@ RET:
 	return retValue;
 }
 
+int modcfg_clone_struct(struct MODCFG_STRUCT* dst, struct MODCFG_STRUCT* src)
+{
+	int i;
+	int iResult;
+	int retValue = MODCFG_NO_ERROR;
+	
+	dst->modList = (struct MODCFG_MODULE*)malloc(sizeof(struct MODCFG_MODULE) * src->modCount);
+	if(dst->modList == NULL)
+	{
+		retValue = MODCFG_MEM_FAILED;
+		goto RET;
+	}
+	else
+	{
+		dst->modCount = src->modCount;
+		for(i = 0; i < src->modCount; i++)
+		{
+			dst->modList[i].modName = NULL;
+			dst->modList[i].modType = NULL;
+			dst->modList[i].memberCount = 0;
+			dst->modList[i].memberList = NULL;
+		}
+	}
+
+	for(i = 0; i < src->modCount; i++)
+	{
+		iResult = modcfg_clone_module(&dst->modList[i], &src->modList[i]);
+		if(iResult != MODCFG_NO_ERROR)
+		{
+			retValue = iResult;
+			goto ERR;
+		}
+	}
+
+	goto RET;
+
+ERR:
+	modcfg_delete_struct(dst);
+
+RET:
+	return retValue;
+}
 

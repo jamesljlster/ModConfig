@@ -1,45 +1,39 @@
 #include <stdio.h>
-#include <stdlib.h>
 
 #include <ModConfig.h>
-#include <modcfg_private.h>
+
+#define TEST_PATH	"./dev.txt"
 
 int main()
 {
-	char* strsrc = "Hello World! Oh Oh Oh";
-	char* strdst = NULL;
+	int i, j;
+	int iResult;
+	MODCFG mod = NULL;
+	MODCFG clone = NULL;
 
-	struct MODCFG_MEMBER srcMember;
-	struct MODCFG_MEMBER dstMember;
+	iResult = modcfg_create(&mod, TEST_PATH);
+	if(iResult != MODCFG_NO_ERROR)
+	{
+		printf("modcfg_create() failed with error: %d\n", iResult);
+		return -1;
+	}
 
-	struct MODCFG_MODULE srcModule;
-	struct MODCFG_MODULE dstModule;
-
-	printf("Test string clone\n");
-	strdst = modcfg_str_clone(strsrc);
-	printf("Src:\t%s\n", strsrc);
-	printf("Dst:\t%s\n", strdst);
-	printf("\n");
-	free(strdst);
+	iResult = modcfg_clone(&clone, mod);
+	if(iResult != MODCFG_NO_ERROR)
+	{
+		printf("modcfg_clone() failed with error: %d\n", iResult);
+		return -1;
+	}
 	
-	printf("Test member clone\n");
-	srcMember.idStr = "TestMember";
-	srcMember.content = "Test Content";
-	modcfg_clone_member(&dstMember, &srcMember);
-	printf("Src Member: ");
-	modcfg_print_member(&srcMember);
-	printf("Dst Member: ");
-	modcfg_print_member(&dstMember);
-	printf("\n");
-	free(dstMember.idStr);
-	free(dstMember.content);
+	printf("Src Mod:\n");
+	modcfg_print_detail(mod);
+	printf("Clone Mod:\n");
+	modcfg_print_detail(clone);
 
-	printf("Test module clone\n");
-	srcModule.modName = "TestModule";
-	srcModule.modType = "module";
-	srcModule.memberCount = 1;
-	srcModule.memberList = &srcMember;
+	printf("Get device from IR: %s\n", modcfg_get_content(clone, "IR", "device"));
+	
+	modcfg_delete(mod);
+	modcfg_delete(clone);
 
 	return 0;
 }
-
