@@ -85,6 +85,47 @@ RET:
 	return retValue;
 }
 
-int modcfg_clone_module(struct MODCFG_MODULE* dst, struct MODCFG_MODULE* src);
+int modcfg_clone_module(struct MODCFG_MODULE* dst, struct MODCFG_MODULE* src)
+{
+	int i;
+	int iResult;
+	int retValue = MODCFG_NO_ERROR;
+	
+	dst->modName = modcfg_str_clone(src->modName);
+	dst->modType = modcfg_str_clone(src->modType);
+	if(dst->modName == NULL || dst->modType == NULL)
+	{
+		retValue = MODCFG_MEM_ERROR;
+		goto RET;
+	}
+
+	dst->memberCount = src->memberCount;
+	dst->memberList = malloc(sizeof(struct MODCFG_MEMBER) * src->memberCount);
+	if(dst->memberList == NULL)
+	{
+		retValue = MODCFG_MEM_FAILED;
+		goto RET;
+	}
+	else
+	{
+		for(i = 0; i < src->memberCount; i++)
+		{
+			iResult = modcfg_clone_member(&dst->memberList[i], &src->memberList[i]);
+			if(iResult != MODCFG_NO_ERROR)
+			{
+				retValue = iResult;
+				goto ERR;
+			}
+		}
+	}
+	
+	goto RET;
+
+ERR:
+	modcfg_delete_module(dst);
+
+RET:
+	return retValue;
+}
 
 
