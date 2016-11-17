@@ -95,7 +95,7 @@ int modcfg_clone_module(struct MODCFG_MODULE* dst, struct MODCFG_MODULE* src)
 	dst->modType = modcfg_str_clone(src->modType);
 	if(dst->modName == NULL || dst->modType == NULL)
 	{
-		retValue = MODCFG_MEM_ERROR;
+		retValue = MODCFG_MEM_FAILED;
 		goto RET;
 	}
 
