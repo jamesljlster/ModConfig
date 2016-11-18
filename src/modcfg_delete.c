@@ -72,8 +72,12 @@ int modcfg_delete(MODCFG modPtr)
 	{
 		return MODCFG_NO_ERROR;
 	}
-
-	modcfg_delete_struct(modRef);
+	
+	if(modRef != NULL)
+	{
+		modcfg_delete_struct(modRef);
+		free(modRef);
+	}
 
 //	// Free module
 //	for(i = 0; i < modRef->modCount; i++)
