@@ -10,11 +10,7 @@ int modcfg_merge(MODCFG* dstModPtr, MODCFG srcMod)
 	int iResult;
 	int retValue = MODCFG_NO_ERROR;
 	
-	char* srcStr;
-	char* cmpStr;
-	void* allocTmp = NULL;
-
-	MODCFG tmpMod;
+	MODCFG tmpMod = NULL;
 
 	// Clone module
 	iResult = modcfg_clone(&tmpMod, *dstModPtr);
@@ -24,12 +20,25 @@ int modcfg_merge(MODCFG* dstModPtr, MODCFG srcMod)
 		goto RET;
 	}
 
+	// Merge module
+	iResult = modcfg_merge_struct((struct MODCFG_STRUCT*)tmpMod, (struct MODCFG_STRUCT*)srcMod);
+	if(iResult != MODCFG_NO_ERROR)
+	{
+		retValue = iResult;
+		goto RET;
+	}
+
+	// Assign new and delete old data
+	modcfg_delete(*dstModPtr);
+	*dstModPtr = tmpMod;
+
+	goto RET;
+
 ERR:
+	if(tmpMod != NULL)
+		modcfg_delete(tmpMod);
 
 RET:
-	if(allocTmp != NULL)
-		free(allocTmp);
-
 	return retValue;
 }
 
@@ -37,7 +46,7 @@ int modcfg_merge_module(struct MODCFG_MODULE* dst, struct MODCFG_MODULE* src)
 {
 	int i;
 	int iResult;
-	int retValue;
+	int retValue = MODCFG_NO_ERROR;
 	
 	int cmpLen;
 	int srcLen, dstLen;
@@ -122,14 +131,14 @@ int modcfg_merge_struct(struct MODCFG_STRUCT* dst, struct MODCFG_STRUCT* src)
 {
 	int i;
 	int iResult;
-	int retValue;
+	int retValue = MODCFG_NO_ERROR;
 	
 	int cmpLen;
 	int srcLen, dstLen;
 
 	struct MODCFG_MODULE* ptr = NULL;
 	void* allocTmp = NULL;
-
+	
 	for(i = 0; i < src->modCount; i++)
 	{
 		// Try to find same struct
@@ -152,7 +161,7 @@ int modcfg_merge_struct(struct MODCFG_STRUCT* dst, struct MODCFG_STRUCT* src)
 
 				dst->modList[dst->modCount - 1].modName = NULL;
 				dst->modList[dst->modCount - 1].modType = NULL;
-				dst->modList[dst->modCount - 1].memberCount = NULL;
+				dst->modList[dst->modCount - 1].memberCount = 0;
 				dst->modList[dst->modCount - 1].memberList = NULL;
 			}
 
@@ -198,12 +207,12 @@ int modcfg_merge_struct(struct MODCFG_STRUCT* dst, struct MODCFG_STRUCT* src)
 
 			// Merge module
 			iResult = modcfg_merge_module(ptr, &src->modList[i]);
-			if(iResult != MODCFG_NO_ERROR);
+			if(iResult != MODCFG_NO_ERROR)
 			{
 				retValue = iResult;
 				goto RET;
 			}
-		}	
+		}
 	}
 
 RET:

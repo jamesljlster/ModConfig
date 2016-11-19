@@ -1,0 +1,15 @@
+module ModTest
+{
+	test2 = "Test 2";
+}
+
+module IR
+{
+	baudrate = 38400;
+}
+
+module Laser
+{
+	device = COM4;
+	baudrate = 115200;
+}
