@@ -12,6 +12,7 @@ file(GLOB PROJECT_SRCS
 file(GLOB TEST_TXT
 	${CMAKE_CURRENT_SOURCE_DIR}/*.txt
 	)
+list(REMOVE_ITEM TEST_TXT ${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt)
 
 # Set dependences
 set(PROJECT_DEPS ModConfig)
