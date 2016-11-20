@@ -2,7 +2,6 @@
 #include <string.h>
 
 #include "ModConfig.h"
-#include "modcfg_private.h" 
 
 int modcfg_append(MODCFG* modPtr, char* filePath)
 {
