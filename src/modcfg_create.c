@@ -114,7 +114,7 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 			}
 
 			// Checking
-			if(strCount != 2)
+			if(strCount > 2)
 			{
 				retValue = MODCFG_SYNTAX_ERROR;
 				goto ERR;
@@ -122,7 +122,8 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 
 			// Assign string
 			modStruct->modList[i].memberList[j].idStr = strList[0];
-			modStruct->modList[i].memberList[j].content = strList[1];
+			if(strCount > 1)
+				modStruct->modList[i].memberList[j].content = strList[1];
 
 			// Free string list
 			free(strList);

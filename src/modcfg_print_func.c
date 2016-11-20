@@ -3,20 +3,40 @@
 #include "ModConfig.h"
 #include "modcfg_private.h"
 
-void modcfg_print_module(MODCFG mod)
+void modcfg_print_detail(MODCFG mod)
 {
-	int i, j;
 	struct MODCFG_STRUCT* modRef = (struct MODCFG_STRUCT*)mod;
+	
+	modcfg_print_struct(modRef);
+}
 
-	for(i = 0; i < modRef->modCount; i++)
+void modcfg_print_member(struct MODCFG_MEMBER* src)
+{
+	printf("%s = %s;\n", src->idStr, src->content);
+}
+
+void modcfg_print_module(struct MODCFG_MODULE* src)
+{
+	int i;
+
+	printf("%s %s {\n", src->modType, src->modName);
+	for(i = 0; i < src->memberCount; i++)
 	{
-		printf("Type: %s, Name: %s\n", modRef->modList[i].modType, modRef->modList[i].modName);
+		printf("    ");
+		modcfg_print_member(&src->memberList[i]);
+	}
+	printf("}\n");
+}
 
-		for(j = 0; j < modRef->modList[i].memberCount; j++)
-		{
-			printf("%s = %s\n", modRef->modList[i].memberList[j].idStr, modRef->modList[i].memberList[j].content);
-		}
+void modcfg_print_struct(struct MODCFG_STRUCT* src)
+{
+	int i;
 
+	for(i = 0; i < src->modCount; i++)
+	{
+		modcfg_print_module(&src->modList[i]);
 		printf("\n");
 	}
 }
+
+

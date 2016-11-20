@@ -1,0 +1,16 @@
+module ModTest
+{
+	Str = "Hello World";
+	test1 = "test 1";
+}
+
+module IR
+{
+	device = "/dev/tnt0";
+}
+
+module Wheel
+{
+	device = "COM1";
+	baudrate = 38400;
+}
