@@ -20,6 +20,15 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 
 	struct MODCFG_MEMBER tmpMember;
 	struct MODCFG_MODULE tmpModule;
+	
+	// Zero memory
+	tmpMember.idStr = NULL;
+	tmpMember.content = NULL;
+
+	tmpModule.modName = NULL;
+	tmpModule.modType = NULL;
+	tmpModule.memberCount = 0;
+	tmpModule.memberList = 0;
 
 	// Create string tree
 	iResult = modcfg_create_str_tree(&strTree, filePath);
@@ -43,9 +52,14 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 		retValue = MODCFG_MEM_FAILED;
 		goto ERR;
 	}
+	else
+	{
+		modStruct->modCount = 0;
+		modStruct->modList = NULL;
+	}
 
 	// Extract string tree to module
-	for(i = 0; i < strTree->strCount; i++)
+	for(i = 0; i < strTree->childCount; i++)
 	{
 		iResult = modcfg_str_extract(&strList, &strCount, strTree->child[i].header);
 		if(iResult != MODCFG_NO_ERROR)
@@ -71,7 +85,7 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 		strCount = 0;
 
 		// Append members to temp module
-		for(j = 0; j < strTree->child[i].childCount; j++)
+		for(j = 0; j < strTree->child[i].strCount; j++)
 		{
 			// Extract strings
 			iResult = modcfg_str_extract(&strList, &strCount, strTree->child[i].strList[j]);
