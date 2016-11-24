@@ -10,12 +10,25 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 {
 	int i, j;
 	int iResult;
+	int modType;
 	int retValue = MODCFG_NO_ERROR;
 	
 	int strCount = 0;
 	char** strList = NULL;
 	struct STR_TREE* strTree = NULL;
 	struct MODCFG_STRUCT* modStruct = NULL;
+
+	struct MODCFG_MEMBER tmpMember;
+	struct MODCFG_MODULE tmpModule;
+	
+	// Zero memory
+	tmpMember.idStr = NULL;
+	tmpMember.content = NULL;
+
+	tmpModule.modName = NULL;
+	tmpModule.modType = NULL;
+	tmpModule.memberCount = 0;
+	tmpModule.memberList = 0;
 
 	// Create string tree
 	iResult = modcfg_create_str_tree(&strTree, filePath);
@@ -39,46 +52,14 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 		retValue = MODCFG_MEM_FAILED;
 		goto ERR;
 	}
-
-	modStruct->modCount = strTree->childCount;
-	modStruct->modList = (struct MODCFG_MODULE*)malloc(sizeof(struct MODCFG_MODULE) * strTree->childCount);
-	if(modStruct->modList == NULL)
-	{
-		retValue = MODCFG_MEM_FAILED;
-		goto ERR;
-	}
 	else
 	{
-		for(i = 0; i < modStruct->modCount; i++)
-		{
-			modStruct->modList[i].modType = NULL;
-			modStruct->modList[i].modName = NULL;	
-			modStruct->modList[i].memberList = NULL;
-			modStruct->modList[i].memberCount = 0;
-		}
-	}
-
-	for(i = 0; i < modStruct->modCount; i++)
-	{
-		modStruct->modList[i].memberCount = strTree->child[i].strCount;
-		modStruct->modList[i].memberList = (struct MODCFG_MEMBER*)malloc(sizeof(struct MODCFG_MEMBER) * strTree->child[i].strCount);
-		if(modStruct->modList[i].memberList == NULL)
-		{
-			retValue = MODCFG_MEM_FAILED;
-			goto ERR;
-		}
-		else
-		{
-			for(j = 0; j < modStruct->modList[i].memberCount; j++)
-			{
-				modStruct->modList[i].memberList[j].idStr = NULL;
-				modStruct->modList[i].memberList[j].content = NULL;
-			}
-		}
+		modStruct->modCount = 0;
+		modStruct->modList = NULL;
 	}
 
 	// Extract string tree to module
-	for(i = 0; i < modStruct->modCount; i++)
+	for(i = 0; i < strTree->childCount; i++)
 	{
 		iResult = modcfg_str_extract(&strList, &strCount, strTree->child[i].header);
 		if(iResult != MODCFG_NO_ERROR)
@@ -94,18 +75,19 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 			goto ERR;
 		}
 		
-		// Assign string
-		modStruct->modList[i].modType = strList[0];
-		modStruct->modList[i].modName = strList[1];
-		
+		// Assign string to temp module
+		tmpModule.modType = strList[0];
+		tmpModule.modName = strList[1];
+
 		// Free string list
 		free(strList);
 		strList = NULL;
 		strCount = 0;
 
-		// Process member
-		for(j = 0; j < modStruct->modList[i].memberCount; j++)
+		// Append members to temp module
+		for(j = 0; j < strTree->child[i].strCount; j++)
 		{
+			// Extract strings
 			iResult = modcfg_str_extract(&strList, &strCount, strTree->child[i].strList[j]);
 			if(iResult != MODCFG_NO_ERROR)
 			{
@@ -117,18 +99,36 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 			if(strCount > 2)
 			{
 				retValue = MODCFG_SYNTAX_ERROR;
-				goto ERR;
+				goto RET;
 			}
 
-			// Assign string
-			modStruct->modList[i].memberList[j].idStr = strList[0];
+			// Assign string to temp member
+			tmpMember.idStr = strList[0];
 			if(strCount > 1)
-				modStruct->modList[i].memberList[j].content = strList[1];
+			{
+				tmpMember.content = strList[1];
+			}
 
 			// Free string list
 			free(strList);
 			strList = NULL;
 			strCount = 0;
+
+			// Append temp member to temp module
+			iResult = modcfg_append_member(&tmpModule, &tmpMember);
+			if(iResult != MODCFG_NO_ERROR)
+			{
+				retValue = iResult;
+				goto RET;
+			}
+		}
+
+		// Append tempt module to struct
+		iResult = modcfg_append_module(modStruct, &tmpModule);
+		if(iResult != MODCFG_NO_ERROR)
+		{
+			retValue = iResult;
+			goto RET;
 		}
 	}
 
@@ -138,6 +138,8 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 	goto RET;
 
 ERR:
+	modcfg_delete_module(&tmpModule);
+	modcfg_delete_member(&tmpMember);
 	modcfg_delete(modStruct);
 
 RET:
