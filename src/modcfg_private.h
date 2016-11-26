@@ -4,7 +4,9 @@
 enum MODCFG_TYPE
 {
 	MODCFG_TYPE_MODULE,
-	MODCFG_TYPE_LIST
+	MODCFG_TYPE_LIST,
+	
+	MODCFG_TYPE_AMOUNT
 };
 
 struct MODCFG_MEMBER
@@ -36,6 +38,7 @@ struct MODCFG_MEMBER* modcfg_search_member(struct MODCFG_MODULE* target, char* n
 struct MODCFG_MODULE* modcfg_search_module(struct MODCFG_STRUCT* target, char* name);
 
 char* modcfg_str_clone(char* src);
+int modcfg_strcmp(char* src1, char* src2);
 
 int modcfg_append_member(struct MODCFG_MODULE* dst, struct MODCFG_MEMBER* src);
 int modcfg_append_module(struct MODCFG_STRUCT* dst, struct MODCFG_MODULE* src);

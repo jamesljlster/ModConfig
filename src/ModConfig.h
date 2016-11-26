@@ -77,6 +77,9 @@ const char* modcfg_get_content(MODCFG mod, char* moduleName, char* memberName);
  *	@return	If succeed, the function would return the pointer of content, else return NULL.
  */
 
+int modcfg_get_list_length(MODCFG mod, char* listName);
+const char* modcfg_get_item(MODCFG mod, char* listName, int index);
+
 void modcfg_print_detail(MODCFG mod);
 /**
  *	@fn		void modcfg_print_detail(MODCFG mod);

@@ -1,7 +1,32 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "ModConfig.h"
 #include "modcfg_file_proc.h"
+
+int modcfg_strcmp(char* src1, char* src2)
+{
+	int iResult;
+	int retValue = MODCFG_NO_ERROR;
+	int len1, len2;
+	
+	len1 = strlen(src1);
+	len2 = strlen(src2);
+	if(len1 != len2)
+	{
+		retValue = MODCFG_CONFLICT;
+	}
+	else
+	{
+		iResult = strncmp(src1, src2, len1);
+		if(iResult != 0)
+		{
+			retValue = MODCFG_CONFLICT;
+		}
+	}
+
+	return retValue;
+}
 
 int modcfg_str_append(char** strBufPtr, int* strBufLenPtr, char appendChar)
 {
