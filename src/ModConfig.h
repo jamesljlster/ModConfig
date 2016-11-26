@@ -14,7 +14,8 @@ enum MODCFG_RETURN_VALUE
 	MODCFG_FILE_FAILED	= -2,	/*!< Open file failed. */
 	MODCFG_SYNTAX_ERROR	= -3,	/*!< There exists syntax error(s) in given config file. */
 	MODCFG_NOT_FOUND	= -4,	/*!< Element not found in current config data. */
-	MODCFG_CONFLICT		= -5	/*!< Conflict content with same ID or name. */ 
+	MODCFG_CONFLICT		= -5,	/*!< Conflict content with same ID or name. */
+	MODCFG_WRONG_TYPE	= -6	/*!< Doing operation on incompatible module. */
 };
 
 typedef void* MODCFG;

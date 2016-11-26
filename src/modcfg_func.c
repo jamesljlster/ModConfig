@@ -16,6 +16,12 @@ const char* modcfg_get_content(MODCFG mod, char* moduleName, char* memberName)
 		return NULL;
 	}
 
+	// Check module type
+	if(modcfg_get_type_id(modulePtr->modType) != MODCFG_TYPE_MODULE)
+	{
+		return NULL;
+	}
+
 	// Find member
 	memberPtr = modcfg_search_member(modulePtr, memberName);
 	if(memberPtr == NULL)
@@ -36,6 +42,12 @@ const char* modcfg_get_item(MODCFG mod, char* listName, int index)
 	// Find module
 	modulePtr = modcfg_search_module(modRef, listName);
 	if(modulePtr == NULL)
+	{
+		return NULL;
+	}
+
+	// Check module type
+	if(modcfg_get_type_id(modulePtr->modType) != MODCFG_TYPE_LIST)
 	{
 		return NULL;
 	}
@@ -61,9 +73,13 @@ int modcfg_get_list_length(MODCFG mod, char* listName)
 	{
 		return MODCFG_NOT_FOUND;
 	}
-	else
+	
+	// Check module type
+	if(modcfg_get_type_id(modulePtr->modType) != MODCFG_TYPE_LIST)
 	{
-		return modulePtr->memberCount;
+		return MODCFG_WRONG_TYPE;
 	}
+
+	return modulePtr->memberCount;
 }
 
