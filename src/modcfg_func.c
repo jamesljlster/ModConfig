@@ -28,3 +28,42 @@ const char* modcfg_get_content(MODCFG mod, char* moduleName, char* memberName)
 	}
 }
 
+const char* modcfg_get_item(MODCFG mod, char* listName, int index)
+{
+	struct MODCFG_STRUCT* modRef = (struct MODCFG_STRUCT*)mod;
+	struct MODCFG_MODULE* modulePtr = NULL;
+
+	// Find module
+	modulePtr = modcfg_search_module(modRef, listName);
+	if(modulePtr == NULL)
+	{
+		return NULL;
+	}
+
+	if(index > modulePtr->memberCount - 1)
+	{
+		return NULL;
+	}
+	else
+	{
+		return (const char*)modulePtr->memberList[index].idStr;
+	}
+}
+
+int modcfg_get_list_length(MODCFG mod, char* listName)
+{
+	struct MODCFG_STRUCT* modRef = (struct MODCFG_STRUCT*)mod;
+	struct MODCFG_MODULE* modulePtr = NULL;
+
+	// Find module
+	modulePtr = modcfg_search_module(modRef, listName);
+	if(modulePtr == NULL)
+	{
+		return MODCFG_NOT_FOUND;
+	}
+	else
+	{
+		return modulePtr->memberCount;
+	}
+}
+

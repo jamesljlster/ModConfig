@@ -9,3 +9,9 @@ module Laser
 	device = /dev/tnt2;
 	test = test;
 }
+
+list cmd
+{
+	test_prog1;
+	test_prog2;
+}

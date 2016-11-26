@@ -115,7 +115,7 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 			switch(modType)
 			{
 				case MODCFG_TYPE_MODULE:
-					if(strCount > 2)
+					if(strCount != 2)
 					{
 						retValue = MODCFG_SYNTAX_ERROR;
 						goto ERR;
@@ -123,7 +123,7 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 					break;
 
 				case MODCFG_TYPE_LIST:
-					if(strCount > 1)
+					if(strCount != 1)
 					{
 						retValue = MODCFG_SYNTAX_ERROR;
 						goto ERR;

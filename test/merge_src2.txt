@@ -14,3 +14,13 @@ module Wheel
 	device = "COM1";
 	baudrate = 38400;
 }
+
+list List1
+{
+	banana;
+}
+
+list List3
+{
+	some;
+}
