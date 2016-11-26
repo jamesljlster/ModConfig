@@ -4,6 +4,8 @@
 #include "ModConfig.h"
 #include "modcfg_file_proc.h"
 
+#include "debug.h"
+
 char* modcfg_str_type[MODCFG_TYPE_AMOUNT] = {
 	"module",
 	"list"
@@ -13,12 +15,16 @@ int modcfg_get_type_id(char* src)
 {
 	int i;
 	int retValue = MODCFG_NOT_FOUND;
-
+	
+	LOG("enter");
+	
 	for(i = 0; i < MODCFG_TYPE_AMOUNT; i++)
 	{
 		if(modcfg_strcmp(src, modcfg_str_type[i]) == 0)
 			retValue = i;
 	}
+
+	LOG("exit");
 
 	return retValue;
 }

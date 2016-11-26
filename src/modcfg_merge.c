@@ -4,6 +4,8 @@
 #include "ModConfig.h"
 #include "modcfg_private.h" 
 
+#include "debug.h"
+
 int modcfg_merge(MODCFG* dstModPtr, MODCFG srcMod)
 {
 	int i, j;
@@ -53,6 +55,8 @@ int modcfg_merge_module(struct MODCFG_MODULE* dst, struct MODCFG_MODULE* src)
 
 	struct MODCFG_MEMBER* ptr = NULL;
 	void* allocTmp = NULL;
+
+	LOG("enter");
 
 	for(i = 0; i < src->memberCount; i++)
 	{
@@ -123,6 +127,8 @@ int modcfg_merge_module(struct MODCFG_MODULE* dst, struct MODCFG_MODULE* src)
 RET:
 	if(allocTmp != NULL)
 		free(allocTmp);
+
+	LOG("exit");
 
 	return retValue;
 }

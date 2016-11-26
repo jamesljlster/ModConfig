@@ -4,6 +4,8 @@
 #include "ModConfig.h"
 #include "modcfg_private.h" 
 
+#include "debug.h"
+
 int modcfg_clone(MODCFG* dstModPtr, MODCFG srcMod)
 {
 	int iResult;
@@ -66,24 +68,44 @@ char* modcfg_str_clone(char* src)
 int modcfg_clone_member(struct MODCFG_MEMBER* dst, struct MODCFG_MEMBER* src)
 {
 	int retValue = MODCFG_NO_ERROR;
-
-	dst->idStr = modcfg_str_clone(src->idStr);
-	dst->content = modcfg_str_clone(src->content);
 	
-	if(dst->idStr == NULL || dst->content == NULL)
+	LOG("enter");
+	
+	if(src->idStr != NULL)
 	{
-		retValue = MODCFG_MEM_FAILED;
-		goto ERR;
+		dst->idStr = modcfg_str_clone(src->idStr);
+		if(dst->idStr == NULL)
+		{
+			retValue = MODCFG_MEM_FAILED;
+			goto RET;
+		}
 	}
 	else
 	{
-		goto RET;
+		dst->idStr = NULL;
 	}
+
+	if(src->content != NULL)
+	{
+		dst->content = modcfg_str_clone(src->content);
+		if(dst->content == NULL)
+		{
+			retValue = MODCFG_MEM_FAILED;
+			goto RET;
+		}
+	}
+	else
+	{
+		dst->content = NULL;
+	}
+
+	goto RET;
 
 ERR:
 	modcfg_delete_member(dst);
-
+	
 RET:
+	LOG("exit");
 	return retValue;
 }
 

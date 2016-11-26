@@ -4,6 +4,8 @@
 #include "ModConfig.h"
 #include "modcfg_private.h"
 
+#include "debug.h"
+
 int modcfg_append(MODCFG* modPtr, char* filePath)
 {
 	int iResult;
@@ -46,6 +48,8 @@ int modcfg_append_member(struct MODCFG_MODULE* dst, struct MODCFG_MEMBER* src)
 	int iResult;
 	int retValue = MODCFG_NO_ERROR;
 	struct MODCFG_MODULE tmpModule;
+	
+	LOG("enter");
 
 	// Set temp module
 	tmpModule.modName = dst->modName;
@@ -63,6 +67,8 @@ int modcfg_append_member(struct MODCFG_MODULE* dst, struct MODCFG_MEMBER* src)
 	{
 		modcfg_delete_member(src);
 	}
+
+	LOG("exit");
 
 	return retValue;
 }

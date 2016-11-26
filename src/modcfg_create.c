@@ -6,6 +6,8 @@
 #include "modcfg_private.h" 
 #include "modcfg_file_proc.h"
 
+#include "debug.h"
+
 int modcfg_create(MODCFG* modPtr, char* filePath)
 {
 	int i, j;
@@ -20,7 +22,9 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 
 	struct MODCFG_MEMBER tmpMember;
 	struct MODCFG_MODULE tmpModule;
-	
+
+	LOG("enter");
+
 	// Zero memory
 	tmpMember.idStr = NULL;
 	tmpMember.content = NULL;
@@ -71,6 +75,7 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 		// Checking
 		if(strCount != 2)
 		{
+			LOG("header str count: %d", strCount);
 			retValue = MODCFG_SYNTAX_ERROR;
 			goto ERR;
 		}
@@ -79,7 +84,7 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 			modType = modcfg_get_type_id(strList[0]);
 			if(modType < 0)
 			{
-				printf("modcfg_get_type_id() failed\n");
+				LOG("modcfg_get_type_id() failed");
 				retValue = MODCFG_SYNTAX_ERROR;
 				goto ERR;
 			}
@@ -106,6 +111,7 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 			}
 
 			// Checking
+			LOG("modType = %d", modType);
 			switch(modType)
 			{
 				case MODCFG_TYPE_MODULE:
@@ -169,11 +175,15 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 	goto RET;
 
 ERR:
+	LOG("error dealing");
+
 	modcfg_delete_module(&tmpModule);
 	modcfg_delete_member(&tmpMember);
 	modcfg_delete(modStruct);
 
 RET:
+	LOG("Cleanup");
+
 	for(i = 0; i < strCount; i++)
 	{
 		if(strList[i] != NULL)
@@ -185,6 +195,8 @@ RET:
 
 	if(strTree != NULL)
 		modcfg_delete_str_tree(strTree);
+	
+	LOG("exit");
 
 	return retValue;
 }
