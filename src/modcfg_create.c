@@ -74,6 +74,16 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 			retValue = MODCFG_SYNTAX_ERROR;
 			goto ERR;
 		}
+		else
+		{
+			modType = modcfg_get_type_id(strList[0]);
+			if(modType < 0)
+			{
+				printf("modcfg_get_type_id() failed\n");
+				retValue = MODCFG_SYNTAX_ERROR;
+				goto ERR;
+			}
+		}
 		
 		// Assign string to temp module
 		tmpModule.modType = strList[0];
@@ -96,10 +106,27 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 			}
 
 			// Checking
-			if(strCount > 2)
+			switch(modType)
 			{
-				retValue = MODCFG_SYNTAX_ERROR;
-				goto RET;
+				case MODCFG_TYPE_MODULE:
+					if(strCount > 2)
+					{
+						retValue = MODCFG_SYNTAX_ERROR;
+						goto ERR;
+					}
+					break;
+
+				case MODCFG_TYPE_LIST:
+					if(strCount > 1)
+					{
+						retValue = MODCFG_SYNTAX_ERROR;
+						goto ERR;
+					}
+					break;
+
+				default:
+					retValue = MODCFG_SYNTAX_ERROR;
+					goto ERR;
 			}
 
 			// Assign string to temp member
@@ -107,6 +134,10 @@ int modcfg_create(MODCFG* modPtr, char* filePath)
 			if(strCount > 1)
 			{
 				tmpMember.content = strList[1];
+			}
+			else
+			{
+				tmpMember.content = NULL;
 			}
 
 			// Free string list

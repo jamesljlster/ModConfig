@@ -2,12 +2,18 @@ module IR
 {
 	device = "/dev/tnt0";
 	baudrate = 38400;		// Comment Line
+	/* Comment Block */
 }
 
 module Laser
 {
 	device = /dev/tnt2;
 	baudrate = 115200;		/* Comment
-								Block
-								*/
+								Block */
+}
+
+list TmpList {
+	item1;
+	item2;
+	item3;
 }

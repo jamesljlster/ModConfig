@@ -1,4 +1,4 @@
-#ifndef _MODCFG_PRIVATE_H_ 
+#ifndef _MODCFG_PRIVATE_H_
 #define _MODCFG_PRIVATE_H_
 
 enum MODCFG_TYPE
@@ -30,6 +30,8 @@ struct MODCFG_STRUCT
 	struct MODCFG_MODULE* modList;
 };
 
+extern char* modcfg_str_type[MODCFG_TYPE_AMOUNT];
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -39,6 +41,7 @@ struct MODCFG_MODULE* modcfg_search_module(struct MODCFG_STRUCT* target, char* n
 
 char* modcfg_str_clone(char* src);
 int modcfg_strcmp(char* src1, char* src2);
+int modcfg_get_type_id(char* src);
 
 int modcfg_append_member(struct MODCFG_MODULE* dst, struct MODCFG_MEMBER* src);
 int modcfg_append_module(struct MODCFG_STRUCT* dst, struct MODCFG_MODULE* src);

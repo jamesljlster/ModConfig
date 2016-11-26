@@ -4,12 +4,31 @@
 #include "ModConfig.h"
 #include "modcfg_file_proc.h"
 
+char* modcfg_str_type[MODCFG_TYPE_AMOUNT] = {
+	"module",
+	"list"
+};
+
+int modcfg_get_type_id(char* src)
+{
+	int i;
+	int retValue = MODCFG_NOT_FOUND;
+
+	for(i = 0; i < MODCFG_TYPE_AMOUNT; i++)
+	{
+		if(modcfg_strcmp(src, modcfg_str_type[i]) == 0)
+			retValue = i;
+	}
+
+	return retValue;
+}
+
 int modcfg_strcmp(char* src1, char* src2)
 {
 	int iResult;
 	int retValue = MODCFG_NO_ERROR;
 	int len1, len2;
-	
+
 	len1 = strlen(src1);
 	len2 = strlen(src2);
 	if(len1 != len2)

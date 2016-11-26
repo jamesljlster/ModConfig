@@ -77,6 +77,10 @@ int modcfg_create_str_tree(struct STR_TREE** strTreeRef, char* filePath)
 		case '*':
 			if(preChar == '/')
 			{
+				// Remove previous '/' in buffer
+				strBuf[strBufLen - 2] = '\0';
+				strBufLen--;
+
 				tmpRead = 0;
 				preChar = 0;
 				while(preChar != '*' && tmpRead != '/')
