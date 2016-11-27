@@ -79,7 +79,23 @@ const char* modcfg_get_content(MODCFG mod, char* moduleName, char* memberName);
  */
 
 const char* modcfg_get_item(MODCFG mod, char* listName, int index);
+/**
+ *	@fn 	const char* modcfg_get_item(MODCFG mod, char* listName, int index);
+ *	@brief	Get item with given list name and index.
+ *	@param	mod:		Config data.
+ *	@param	listName:	List name.
+ *	@param	index:		Item index.
+ *	@retuen	if succeed, the function would return the pointer of content, else return NULL.
+ */
+
 int modcfg_get_list_length(MODCFG mod, char* listName);
+/**
+ *	@fn		int modcfg_get_list_length(MODCFG mod, char* listName);
+ *	@brief	Get list length (item amount) with given list name.
+ *	@param	mod:		Config data.
+ *	@param	listName:	List name.
+ *	@return	If succeed, the function would return the length of the list, else return a number small then zero.
+ */
 
 void modcfg_print_detail(MODCFG mod);
 /**
