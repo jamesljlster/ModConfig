@@ -96,11 +96,14 @@ int modcfg_merge_module(struct MODCFG_MODULE* dst, struct MODCFG_MODULE* src)
 			if(ptr->content == NULL)
 			{
 				// Copy content
-				ptr->content = modcfg_str_clone(src->memberList[i].content);
-				if(ptr->content == NULL)
+				if(src->memberList[i].content != NULL)
 				{
-					retValue = MODCFG_MEM_FAILED;
-					goto RET;
+					ptr->content = modcfg_str_clone(src->memberList[i].content);
+					if(ptr->content == NULL)
+					{
+						retValue = MODCFG_MEM_FAILED;
+						goto RET;
+					}
 				}
 			}
 			else
