@@ -6,6 +6,8 @@
 #include "modcfg_file_proc.h"
 #include "modcfg_ptr_stack.h"
 
+#include "debug.h"
+
 int modcfg_create_str_tree(struct STR_TREE** strTreeRef, char* filePath)
 {
 	int iResult;
@@ -22,6 +24,8 @@ int modcfg_create_str_tree(struct STR_TREE** strTreeRef, char* filePath)
 	struct STR_TREE* strTreeParent = NULL;
 	struct MODCFG_PSTACK pstack;
 	FILE* fileRead = NULL;
+	
+	LOG("enter");
 
 	// Create pointer stack
 	iResult = modcfg_pstack_create(&pstack);
@@ -77,6 +81,10 @@ int modcfg_create_str_tree(struct STR_TREE** strTreeRef, char* filePath)
 		case '*':
 			if(preChar == '/')
 			{
+				// Remove previous '/' in buffer
+				strBuf[strBufLen - 2] = '\0';
+				strBufLen--;
+
 				tmpRead = 0;
 				preChar = 0;
 				while(preChar != '*' && tmpRead != '/')
@@ -243,6 +251,8 @@ RET:
 		fclose(fileRead);
 
 	modcfg_pstack_delete(&pstack);
+	
+	LOG("exit");
 
 	return retValue;
 }

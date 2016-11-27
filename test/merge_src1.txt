@@ -13,3 +13,13 @@ module Laser
 	device = COM4;
 	baudrate = 115200;
 }
+
+list List1
+{
+	apple;
+}
+
+list List2
+{
+	one;
+}

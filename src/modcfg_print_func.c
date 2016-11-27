@@ -12,7 +12,12 @@ void modcfg_print_detail(MODCFG mod)
 
 void modcfg_print_member(struct MODCFG_MEMBER* src)
 {
-	printf("%s = %s;\n", src->idStr, src->content);
+	printf("%s", src->idStr);
+
+	if(src->content != NULL)
+		printf(" = %s", src->content);
+	
+	printf(";\n");
 }
 
 void modcfg_print_module(struct MODCFG_MODULE* src)

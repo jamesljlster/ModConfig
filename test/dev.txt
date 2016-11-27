@@ -2,12 +2,22 @@ module IR
 {
 	device = "/dev/tnt0";
 	baudrate = 38400;		// Comment Line
+	/* Comment Block */
 }
 
 module Laser
 {
 	device = /dev/tnt2;
 	baudrate = 115200;		/* Comment
-								Block
-								*/
+								Block */
+}
+
+list List1 {
+	item1;	// Item 1 in List 1
+	item2;	/* Item 2 in List 2 */
+}
+
+list List2 {
+	item_2_1 /* Strict comment*/ ;
+	item_2_2;
 }

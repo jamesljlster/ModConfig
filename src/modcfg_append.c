@@ -2,6 +2,9 @@
 #include <string.h>
 
 #include "ModConfig.h"
+#include "modcfg_private.h"
+
+#include "debug.h"
 
 int modcfg_append(MODCFG* modPtr, char* filePath)
 {
@@ -39,3 +42,58 @@ RET:
 
 	return retValue;
 }
+
+int modcfg_append_member(struct MODCFG_MODULE* dst, struct MODCFG_MEMBER* src)
+{
+	int iResult;
+	int retValue = MODCFG_NO_ERROR;
+	struct MODCFG_MODULE tmpModule;
+	
+	LOG("enter");
+
+	// Set temp module
+	tmpModule.modName = dst->modName;
+	tmpModule.modType = dst->modType;
+	tmpModule.memberCount = 1;
+	tmpModule.memberList = src;
+
+	// Merge temp module to dst module
+	iResult = modcfg_merge_module(dst, &tmpModule);
+	if(iResult != MODCFG_NO_ERROR)
+	{
+		retValue = iResult;
+	}
+	else
+	{
+		modcfg_delete_member(src);
+	}
+
+	LOG("exit");
+
+	return retValue;
+}
+
+int modcfg_append_module(struct MODCFG_STRUCT* dst, struct MODCFG_MODULE* src)
+{
+	int iResult;
+	int retValue = MODCFG_NO_ERROR;
+	struct MODCFG_STRUCT tmpStruct;
+
+	// Set temp struct
+	tmpStruct.modCount = 1;
+	tmpStruct.modList = src;
+
+	// Merge temp struct to dst struct
+	iResult = modcfg_merge_struct(dst, &tmpStruct);
+	if(iResult != MODCFG_NO_ERROR)
+	{
+		retValue = iResult;
+	}
+	else
+	{
+		modcfg_delete_module(src);
+	}
+
+	return retValue;
+}
+

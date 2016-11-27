@@ -1,6 +1,6 @@
 /**
  *	@author		Zheng-Ling Lai <jamesljlster@gmail.com>
- *	@copyright	Copyright 2016 Zheng-Ling Lai. All Right Reserved.
+ *	@copyright	Copyright 2016 Zheng-Ling Lai. All Rights Reserved.
 **/
 
 #ifndef _MODCONFIG_H_
@@ -14,7 +14,8 @@ enum MODCFG_RETURN_VALUE
 	MODCFG_FILE_FAILED	= -2,	/*!< Open file failed. */
 	MODCFG_SYNTAX_ERROR	= -3,	/*!< There exists syntax error(s) in given config file. */
 	MODCFG_NOT_FOUND	= -4,	/*!< Element not found in current config data. */
-	MODCFG_CONFLICT		= -5	/*!< Conflict content with same ID or name. */ 
+	MODCFG_CONFLICT		= -5,	/*!< Conflict content with same ID or name. */
+	MODCFG_WRONG_TYPE	= -6	/*!< Doing operation on incompatible module. */
 };
 
 typedef void* MODCFG;
@@ -75,6 +76,25 @@ const char* modcfg_get_content(MODCFG mod, char* moduleName, char* memberName);
  *	@param	moduleName:	Module name.
  *	@param	memberName:	Member name.
  *	@return	If succeed, the function would return the pointer of content, else return NULL.
+ */
+
+const char* modcfg_get_item(MODCFG mod, char* listName, int index);
+/**
+ *	@fn 	const char* modcfg_get_item(MODCFG mod, char* listName, int index);
+ *	@brief	Get item with given list name and index.
+ *	@param	mod:		Config data.
+ *	@param	listName:	List name.
+ *	@param	index:		Item index.
+ *	@retuen	if succeed, the function would return the pointer of content, else return NULL.
+ */
+
+int modcfg_get_list_length(MODCFG mod, char* listName);
+/**
+ *	@fn		int modcfg_get_list_length(MODCFG mod, char* listName);
+ *	@brief	Get list length (item amount) with given list name.
+ *	@param	mod:		Config data.
+ *	@param	listName:	List name.
+ *	@return	If succeed, the function would return the length of the list, else return a number small then zero.
  */
 
 void modcfg_print_detail(MODCFG mod);

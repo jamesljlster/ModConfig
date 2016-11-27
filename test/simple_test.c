@@ -45,7 +45,8 @@ int main()
 	modcfg_print_detail(mod);
 
 	printf("Get device from IR: %s\n", modcfg_get_content(mod, "IR", "device"));
-	
+	printf("Get item 1 form List2: %s\n", modcfg_get_item(mod, "List2", 1));
+
 	modcfg_delete(mod);
 
 	return 0;
