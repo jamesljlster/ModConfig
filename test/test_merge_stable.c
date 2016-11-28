@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include <ModConfig.h>
+#include <modcfg.h>
 #include <modcfg_private.h>
 
 #define MERGE_SRC1_PATH	"./merge_src1.txt"

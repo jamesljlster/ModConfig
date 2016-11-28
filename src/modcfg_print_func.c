@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "ModConfig.h"
+#include "modcfg.h"
 #include "modcfg_private.h"
 
 void modcfg_print_detail(MODCFG mod)

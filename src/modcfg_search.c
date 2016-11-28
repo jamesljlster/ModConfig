@@ -1,6 +1,6 @@
 #include <string.h>
 
-#include "ModConfig.h"
+#include "modcfg.h"
 #include "modcfg_private.h"
 
 struct MODCFG_MEMBER* modcfg_search_member(struct MODCFG_MODULE* target, char* name)

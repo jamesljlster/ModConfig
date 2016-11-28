@@ -1,6 +1,6 @@
 #include <string.h>
 
-#include "ModConfig.h"
+#include "modcfg.h"
 #include "modcfg_private.h"
 
 const char* modcfg_get_content(MODCFG mod, char* moduleName, char* memberName)

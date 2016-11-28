@@ -15,7 +15,7 @@ file(GLOB TEST_TXT
 list(REMOVE_ITEM TEST_TXT ${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt)
 
 # Set dependences
-set(PROJECT_DEPS ModConfig)
+set(PROJECT_DEPS modcfg)
 
 install(FILES ${TEST_TXT}
 	DESTINATION "${CMAKE_INSTALL_PREFIX}/bin"

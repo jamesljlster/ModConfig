@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-#include "ModConfig.h"
+#include "modcfg.h"
 #include "modcfg_private.h"
 
 void modcfg_delete_member(struct MODCFG_MEMBER* target)
