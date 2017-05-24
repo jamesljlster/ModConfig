@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <ModConfig.h>
+#include <modcfg.h>
 #include <modcfg_private.h>
 
 int main()

@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include <ModConfig.h>
+#include <modcfg.h>
 
 #define TEST_PATH	"./dev.txt"
 

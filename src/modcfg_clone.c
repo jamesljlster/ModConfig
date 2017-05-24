@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "ModConfig.h"
+#include "modcfg.h"
 #include "modcfg_private.h" 
 
 #include "debug.h"

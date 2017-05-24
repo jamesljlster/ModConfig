@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-#include "ModConfig.h"
+#include "modcfg.h"
 #include "modcfg_ptr_stack.h"
 
 int modcfg_pstack_create(struct MODCFG_PSTACK* pstack)
