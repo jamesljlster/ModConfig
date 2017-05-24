@@ -13,7 +13,8 @@ int modcfg_create_str_tree(struct STR_TREE** strTreeRef, char* filePath)
 	int iResult;
 	int retValue = MODCFG_NO_ERROR;
 	
-	char tmpRead, preChar;
+	int tmpRead;
+	char preChar;
 
 	int strBufLen = 1;
 	char* strBuf = NULL;
@@ -257,8 +258,8 @@ RET:
 	return retValue;
 }
 
-char modcfg_get_char(FILE* fileRead, int readAction)
-{	
+int modcfg_get_char(FILE* fileRead, int readAction)
+{
 	int iResult;
 	int readCount;
 	char tmpRead;
