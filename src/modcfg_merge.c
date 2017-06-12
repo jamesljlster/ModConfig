@@ -62,7 +62,7 @@ int modcfg_merge_module(struct MODCFG_MODULE* dst, struct MODCFG_MODULE* src)
 	{
 		// Try to find same member
 		ptr = modcfg_search_member(dst, src->memberList[i].idStr);
-		if(ptr == NULL)
+		if(ptr == NULL || modcfg_get_type_id(src->modType) == MODCFG_TYPE_LIST)
 		{
 			// Insert new member
 			// Memory allocation: New space for new member
