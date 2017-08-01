@@ -1,6 +1,6 @@
 /**
  *	@author		Zheng-Ling Lai <jamesljlster@gmail.com>
- *	@copyright	Copyright 2016 Zheng-Ling Lai. All Rights Reserved.
+ *	@copyright	Copyright 2016-2017 Zheng-Ling Lai. All Rights Reserved.
 **/
 
 #ifndef _MODCONFIG_H_
@@ -102,6 +102,14 @@ void modcfg_print_detail(MODCFG mod);
  *	@fn		void modcfg_print_detail(MODCFG mod);
  *	@brief	Print details of config file.
  *	@param	mod:	Config data.
+ */
+
+const char* modcfg_get_error_msg(int retValue);
+/**
+ *	@fn		const char* modcfg_get_error_msg(int retValue);
+ *	@brief	Get error message with given return value.
+ *	@param	retValue:	Target return value that trying to parsing.
+ *	@return Constant string pointer that contains parsing message.
  */
 
 #ifdef __cplusplus
