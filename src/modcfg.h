@@ -1,6 +1,6 @@
 /**
  *	@author		Zheng-Ling Lai <jamesljlster@gmail.com>
- *	@copyright	Copyright 2016 Zheng-Ling Lai. All Rights Reserved.
+ *	@copyright	Copyright 2016-2017 Zheng-Ling Lai. All Rights Reserved.
 **/
 
 #ifndef _MODCONFIG_H_
@@ -15,7 +15,8 @@ enum MODCFG_RETURN_VALUE
 	MODCFG_SYNTAX_ERROR	= -3,	/*!< There exists syntax error(s) in given config file. */
 	MODCFG_NOT_FOUND	= -4,	/*!< Element not found in current config data. */
 	MODCFG_CONFLICT		= -5,	/*!< Conflict content with same ID or name. */
-	MODCFG_WRONG_TYPE	= -6	/*!< Doing operation on incompatible module. */
+	MODCFG_WRONG_TYPE	= -6,	/*!< Doing operation on incompatible module. */
+	MODCFG_PARSE_FAILED	= -7	/*!< Parsing failed. */
 };
 
 typedef void* MODCFG;
@@ -78,6 +79,29 @@ const char* modcfg_get_content(MODCFG mod, char* moduleName, char* memberName);
  *	@return	If succeed, the function would return the pointer of content, else return NULL.
  */
 
+int modcfg_parse_content_int(int* resultPtr, MODCFG mod, char* moduleName, char* memberName, int numBase);
+/**
+ *	@fn		int modcfg_parse_content_int(MODCFG mod, char* moduleName, char* memberName, int numBase);
+ *	@brief	Get and parse content as integer with given module name and member name.
+ *	@param	mod:		Config data.
+ *	@param	resultPtr:	Result variable pointer.
+ *	@param	moduleName:	Module name.
+ *	@param	memberName:	Member name.
+ *	@param	numBase:	Base of integer.
+ *	@return	Return value could be described by #MODCFG_RETURN_VALUE.
+ */
+
+int modcfg_parse_content_double(double* resultPtr, MODCFG mod, char* moduleName, char* memberName);
+/**
+ *	@fn		int modcfg_parse_content_double(MODCFG mod, double* resultPtr, char* moduleName, char* memberName);
+ *	@brief	Get and parse content as real number with given module name and member name.
+ *	@param	mod:		Config data.
+ *	@param	resultPtr:	Result variable pointer.
+ *	@param	moduleName:	Module name.
+ *	@param	memberName:	Member name.
+ *	@return	Return value could be described by #MODCFG_RETURN_VALUE.
+ */
+
 const char* modcfg_get_item(MODCFG mod, char* listName, int index);
 /**
  *	@fn 	const char* modcfg_get_item(MODCFG mod, char* listName, int index);
@@ -102,6 +126,14 @@ void modcfg_print_detail(MODCFG mod);
  *	@fn		void modcfg_print_detail(MODCFG mod);
  *	@brief	Print details of config file.
  *	@param	mod:	Config data.
+ */
+
+const char* modcfg_get_error_msg(int retValue);
+/**
+ *	@fn		const char* modcfg_get_error_msg(int retValue);
+ *	@brief	Get error message with given return value.
+ *	@param	retValue:	Target return value that trying to parsing.
+ *	@return Constant string pointer that contains parsing message.
  */
 
 #ifdef __cplusplus
