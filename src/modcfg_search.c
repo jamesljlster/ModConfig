@@ -3,7 +3,7 @@
 #include "modcfg.h"
 #include "modcfg_private.h"
 
-struct MODCFG_MEMBER* modcfg_search_member(struct MODCFG_MODULE* target, char* name)
+struct MODCFG_MEMBER* modcfg_search_member(struct MODCFG_MODULE* target, const char* name)
 {
 	int i;
 	int iResult;
@@ -28,7 +28,7 @@ struct MODCFG_MEMBER* modcfg_search_member(struct MODCFG_MODULE* target, char* n
 	return ptr;
 }
 
-struct MODCFG_MODULE* modcfg_search_module(struct MODCFG_STRUCT* target, char* name)
+struct MODCFG_MODULE* modcfg_search_module(struct MODCFG_STRUCT* target, const char* name)
 {
 	int i;
 	int iResult;

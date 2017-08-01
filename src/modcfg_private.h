@@ -36,8 +36,8 @@ extern char* modcfg_str_type[MODCFG_TYPE_AMOUNT];
 extern "C" {
 #endif
 
-struct MODCFG_MEMBER* modcfg_search_member(struct MODCFG_MODULE* target, char* name);
-struct MODCFG_MODULE* modcfg_search_module(struct MODCFG_STRUCT* target, char* name);
+struct MODCFG_MEMBER* modcfg_search_member(struct MODCFG_MODULE* target, const char* name);
+struct MODCFG_MODULE* modcfg_search_module(struct MODCFG_STRUCT* target, const char* name);
 
 char* modcfg_str_clone(char* src);
 int modcfg_strcmp(char* src1, char* src2);

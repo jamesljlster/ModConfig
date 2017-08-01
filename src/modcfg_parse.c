@@ -5,7 +5,7 @@
 
 #include "debug.h"
 
-int modcfg_parse_content_int(int* resultPtr, MODCFG mod, char* moduleName, char* memberName, int numBase)
+int modcfg_parse_content_int(int* resultPtr, MODCFG mod, const char* moduleName, const char* memberName, int numBase)
 {
 	int retValue = MODCFG_NO_ERROR;
 	int tmpConvert;
@@ -36,7 +36,7 @@ RET:
 	return retValue;
 }
 
-int modcfg_parse_content_double(double* resultPtr, MODCFG mod, char* moduleName, char* memberName)
+int modcfg_parse_content_double(double* resultPtr, MODCFG mod, const char* moduleName, const char* memberName)
 {
 	int retValue = MODCFG_NO_ERROR;
 	double tmpConvert;

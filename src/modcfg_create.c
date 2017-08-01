@@ -8,7 +8,7 @@
 
 #include "debug.h"
 
-int modcfg_create(MODCFG* modPtr, char* filePath)
+int modcfg_create(MODCFG* modPtr, const char* filePath)
 {
 	int i, j;
 	int iResult;

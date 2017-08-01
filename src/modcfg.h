@@ -25,18 +25,18 @@ typedef void* MODCFG;
 extern "C" {
 #endif
 
-int modcfg_create(MODCFG* modPtr, char* filePath);
+int modcfg_create(MODCFG* modPtr, const char* filePath);
 /**
- *	@fn		int modcfg_create(MODCFG* modPtr, char* filePath);
+ *	@fn		int modcfg_create(MODCFG* modPtr, const char* filePath);
  *	@brief	Create a config data with given config file path.
  *	@param	modPtr:		Pointer of config data.
  *	@param	filePath:	Path to config file.
  *	@return	Return value could be described by #MODCFG_RETURN_VALUE.
  */
 
-int modcfg_append(MODCFG* modPtr, char* filePath);
+int modcfg_append(MODCFG* modPtr, const char* filePath);
 /**
- *	@fn		int modcfg_append(MODCFG* modPtr, char* filePath);
+ *	@fn		int modcfg_append(MODCFG* modPtr, const char* filePath);
  *	@brief	Append a config data with given config file path.
  *	@param	modPtr:		Pointer of config data.
  *	@param	filePath;	Path to config file.
@@ -69,9 +69,9 @@ int modcfg_merge(MODCFG* dstModPtr, MODCFG srcMod);
  *	@return	Return value could be described by #MODCFG_RETURN_VALUE.
  */
 
-const char* modcfg_get_content(MODCFG mod, char* moduleName, char* memberName);
+const char* modcfg_get_content(MODCFG mod, const char* moduleName, const char* memberName);
 /**
- *	@fn		const char* modcfg_get_content(MODCFG mod, char* moduleName, char* memberName);
+ *	@fn		const char* modcfg_get_content(MODCFG mod, const char* moduleName, const char* memberName);
  *	@brief	Get content with given module name and member name.
  *	@param	mod:		Config data.
  *	@param	moduleName:	Module name.
@@ -79,9 +79,9 @@ const char* modcfg_get_content(MODCFG mod, char* moduleName, char* memberName);
  *	@return	If succeed, the function would return the pointer of content, else return NULL.
  */
 
-int modcfg_parse_content_int(int* resultPtr, MODCFG mod, char* moduleName, char* memberName, int numBase);
+int modcfg_parse_content_int(int* resultPtr, MODCFG mod, const char* moduleName, const char* memberName, int numBase);
 /**
- *	@fn		int modcfg_parse_content_int(MODCFG mod, char* moduleName, char* memberName, int numBase);
+ *	@fn		int modcfg_parse_content_int(MODCFG mod, const char* moduleName, const char* memberName, int numBase);
  *	@brief	Get and parse content as integer with given module name and member name.
  *	@param	mod:		Config data.
  *	@param	resultPtr:	Result variable pointer.
@@ -91,9 +91,9 @@ int modcfg_parse_content_int(int* resultPtr, MODCFG mod, char* moduleName, char*
  *	@return	Return value could be described by #MODCFG_RETURN_VALUE.
  */
 
-int modcfg_parse_content_double(double* resultPtr, MODCFG mod, char* moduleName, char* memberName);
+int modcfg_parse_content_double(double* resultPtr, MODCFG mod, const char* moduleName, const char* memberName);
 /**
- *	@fn		int modcfg_parse_content_double(MODCFG mod, double* resultPtr, char* moduleName, char* memberName);
+ *	@fn		int modcfg_parse_content_double(MODCFG mod, double* resultPtr, const char* moduleName, const char* memberName);
  *	@brief	Get and parse content as real number with given module name and member name.
  *	@param	mod:		Config data.
  *	@param	resultPtr:	Result variable pointer.
@@ -102,9 +102,9 @@ int modcfg_parse_content_double(double* resultPtr, MODCFG mod, char* moduleName,
  *	@return	Return value could be described by #MODCFG_RETURN_VALUE.
  */
 
-const char* modcfg_get_item(MODCFG mod, char* listName, int index);
+const char* modcfg_get_item(MODCFG mod, const char* listName, int index);
 /**
- *	@fn 	const char* modcfg_get_item(MODCFG mod, char* listName, int index);
+ *	@fn 	const char* modcfg_get_item(MODCFG mod, const char* listName, int index);
  *	@brief	Get item with given list name and index.
  *	@param	mod:		Config data.
  *	@param	listName:	List name.
@@ -112,9 +112,9 @@ const char* modcfg_get_item(MODCFG mod, char* listName, int index);
  *	@retuen	if succeed, the function would return the pointer of content, else return NULL.
  */
 
-int modcfg_get_list_length(MODCFG mod, char* listName);
+int modcfg_get_list_length(MODCFG mod, const char* listName);
 /**
- *	@fn		int modcfg_get_list_length(MODCFG mod, char* listName);
+ *	@fn		int modcfg_get_list_length(MODCFG mod, const char* listName);
  *	@brief	Get list length (item amount) with given list name.
  *	@param	mod:		Config data.
  *	@param	listName:	List name.

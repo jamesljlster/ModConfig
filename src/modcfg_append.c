@@ -6,7 +6,7 @@
 
 #include "debug.h"
 
-int modcfg_append(MODCFG* modPtr, char* filePath)
+int modcfg_append(MODCFG* modPtr, const char* filePath)
 {
 	int iResult;
 	int retValue = MODCFG_NO_ERROR;
