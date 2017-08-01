@@ -70,7 +70,7 @@ int modcfg_create_str_tree(struct STR_TREE** strTreeRef, char* filePath)
 	}
 
 	// Read to significant character
-	while(modcfg_get_char(fileRead, READ_SIG) < 0);
+	while(modcfg_get_char(fileRead, READ_SIG) < 0 && !feof(fileRead));
 	fseek(fileRead, -1, SEEK_CUR);
 
 	// Reading file to string tree
@@ -88,7 +88,7 @@ int modcfg_create_str_tree(struct STR_TREE** strTreeRef, char* filePath)
 
 				tmpRead = 0;
 				preChar = 0;
-				while(preChar != '*' && tmpRead != '/')
+				while(preChar != '*' && tmpRead != '/' && !feof(fileRead))
 				{
 					preChar = tmpRead;
 					tmpRead = modcfg_get_char(fileRead, READ_SIG);
@@ -117,7 +117,7 @@ int modcfg_create_str_tree(struct STR_TREE** strTreeRef, char* filePath)
 				strBufLen--;
 				
 				// Read to LF
-				while(modcfg_get_char(fileRead, READ_ALL) != LF);
+				while(modcfg_get_char(fileRead, READ_ALL) != LF && !feof(fileRead));
 
 				preChar = 0;
 				tmpRead = 0;
