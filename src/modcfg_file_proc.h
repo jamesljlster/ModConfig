@@ -30,7 +30,7 @@ struct STR_TREE
 extern "C" {
 #endif
 
-int modcfg_create_str_tree(struct STR_TREE** strTreeRef, char* filePath);
+int modcfg_create_str_tree(struct STR_TREE** strTreeRef, const char* filePath);
 void modcfg_delete_str_tree(struct STR_TREE* strTree);
 void print_str_tree(struct STR_TREE* strTree);
 

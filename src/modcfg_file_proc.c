@@ -8,7 +8,7 @@
 
 #include "debug.h"
 
-int modcfg_create_str_tree(struct STR_TREE** strTreeRef, char* filePath)
+int modcfg_create_str_tree(struct STR_TREE** strTreeRef, const char* filePath)
 {
 	int iResult;
 	int retValue = MODCFG_NO_ERROR;

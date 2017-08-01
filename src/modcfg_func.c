@@ -3,7 +3,7 @@
 #include "modcfg.h"
 #include "modcfg_private.h"
 
-const char* modcfg_get_content(MODCFG mod, char* moduleName, char* memberName)
+const char* modcfg_get_content(MODCFG mod, const char* moduleName, const char* memberName)
 {
 	struct MODCFG_STRUCT* modRef = (struct MODCFG_STRUCT*)mod;
 	struct MODCFG_MODULE* modulePtr = NULL;
@@ -34,7 +34,7 @@ const char* modcfg_get_content(MODCFG mod, char* moduleName, char* memberName)
 	}
 }
 
-const char* modcfg_get_item(MODCFG mod, char* listName, int index)
+const char* modcfg_get_item(MODCFG mod, const char* listName, int index)
 {
 	struct MODCFG_STRUCT* modRef = (struct MODCFG_STRUCT*)mod;
 	struct MODCFG_MODULE* modulePtr = NULL;
@@ -62,7 +62,7 @@ const char* modcfg_get_item(MODCFG mod, char* listName, int index)
 	}
 }
 
-int modcfg_get_list_length(MODCFG mod, char* listName)
+int modcfg_get_list_length(MODCFG mod, const char* listName)
 {
 	struct MODCFG_STRUCT* modRef = (struct MODCFG_STRUCT*)mod;
 	struct MODCFG_MODULE* modulePtr = NULL;
