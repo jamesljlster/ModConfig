@@ -11,6 +11,7 @@ char* modcfg_error_msg[] = {
 	"Element not found in current config data",
 	"Conflict content with same ID or name",
 	"Doing operation on incompatible module",
+	"Parsing failed",
 
 	"Not a return value in ModConfig library"
 };
@@ -53,6 +54,10 @@ const char* modcfg_get_error_msg(int retValue)
 
 			case MODCFG_WRONG_TYPE:
 				retPtr = modcfg_error_msg[MODCFG_WRONG_TYPE_MSG];
+				break;
+
+			case MODCFG_PARSE_FAILED:
+				retPtr = modcfg_error_msg[MODCFG_PARSE_FAILED_MSG];
 				break;
 
 			default:

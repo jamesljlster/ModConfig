@@ -1,0 +1,8 @@
+module num
+{
+	int = 8787;
+	hex_int = 0xFFFF;
+	o_int = 0700;
+
+	realnum = 87.8787;
+}
